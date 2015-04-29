@@ -9,7 +9,7 @@ public class DateTime {
 
     private int[] dayOfMonths = {31,28,31,30,31,30,31,31,30,31,30,31};
 
-    public DateTime(int minute, int hour, int day, int month, int year) {
+    public DateTime(int year, int month, int day, int hour, int minute) {
         this.minute = minute;
         this.hour = hour;
         this.day = day;
@@ -20,6 +20,9 @@ public class DateTime {
     public DateTime diff(DateTime x) {
         boolean offset = false;
         DateTime newDT = new DateTime(0,0,0,0,0);
+        if(compare(this, x) == -1) {
+            swap(this, x);
+        }
 
         int minute = this.minute - x.minute;
         if(minute < 0) {
@@ -63,6 +66,42 @@ public class DateTime {
         newDT.year = year;
 
         return newDT;
+    }
+
+    /**
+     * Compare method
+     * @param a
+     * @param b
+     * @return 0 if equal, 1 if a is less than b and -1 if a is greater than b
+     */
+    private int compare(DateTime a, DateTime b) {
+        if(a.year > b.year) return 1;
+        if(a.month > b.month) return 1;
+        if(a.day > b.day) return 1;
+        if(a.hour > b.hour) return 1;
+        if(a.minute > b.minute) return 1;
+
+        if(a.year < b.year) return -1;
+        if(a.month < b.month) return -1;
+        if(a.day < b.day) return -1;
+        if(a.hour < b.hour) return -1;
+        if(a.minute < b.minute) return -1;
+
+        return 0;
+    }
+
+    private void swap(DateTime a, DateTime b) {
+        DateTime tmp = new DateTime(b.year, b.month, b.day, b.hour, b.minute);
+        b.year = a.year;
+        b.month = a.month;
+        b.day = a.day;
+        b.hour = a.hour;
+        b.minute = a.minute;
+        a.year = tmp.year;
+        a.month = tmp.month;
+        a.day = tmp.day;
+        a.hour = tmp.hour;
+        a.minute = tmp.minute;
     }
 
     public int getDay() {

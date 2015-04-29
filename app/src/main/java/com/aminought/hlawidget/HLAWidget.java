@@ -56,16 +56,16 @@ public class HLAWidget extends AppWidgetProvider {
         event_calendar.setTime(event_date);
         now_calendar.setTime(now_date);
 
-        DateTime dtA = new DateTime(event_calendar.get(Calendar.MINUTE),
-                                    event_calendar.get(Calendar.HOUR_OF_DAY),
-                                    event_calendar.get(Calendar.DAY_OF_MONTH),
+        DateTime dtA = new DateTime(event_calendar.get(Calendar.YEAR),
                                     event_calendar.get(Calendar.MONTH),
-                                    event_calendar.get(Calendar.YEAR));
-        DateTime dtB = new DateTime(now_calendar.get(Calendar.MINUTE),
-                                    now_calendar.get(Calendar.HOUR_OF_DAY),
-                                    now_calendar.get(Calendar.DAY_OF_MONTH),
+                                    event_calendar.get(Calendar.DAY_OF_MONTH),
+                                    event_calendar.get(Calendar.HOUR_OF_DAY),
+                                    event_calendar.get(Calendar.MINUTE));
+        DateTime dtB = new DateTime(now_calendar.get(Calendar.YEAR),
                                     now_calendar.get(Calendar.MONTH),
-                                    now_calendar.get(Calendar.YEAR));
+                                    now_calendar.get(Calendar.DAY_OF_MONTH),
+                                    now_calendar.get(Calendar.HOUR_OF_DAY),
+                                    now_calendar.get(Calendar.MINUTE));
         DateTime dtNew = dtB.diff(dtA);
 
         String color = "<font color='#FFFF00'>";
