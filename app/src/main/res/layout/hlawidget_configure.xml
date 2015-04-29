@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:orientation="vertical"
+    android:padding="5dp"
+    android:id="@+id/linearLayout"
+    android:weightSum="1">
+
+    <ScrollView
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:id="@+id/scrollView">
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:id="@+id/layoutForScrolling"
+            android:focusable="true"
+            android:focusableInTouchMode="true"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                android:text="@string/hello_sun"
+                android:layout_gravity="center"
+                android:textSize="8pt"
+                android:paddingBottom="10dp"
+                android:id="@+id/titleTextView" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/what"
+                android:id="@+id/whatEventTextView" />
+
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="5pt"
+                android:id="@+id/eventEditText" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/when"
+                android:textSize="6pt"
+                android:id="@+id/whenEditView"
+                android:paddingBottom="10dp" />
+
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:text="@string/date"
+                    android:gravity="center"
+                    android:textSize="6pt"
+                    android:id="@+id/dateTextView" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/sample_date"
+                    android:layout_gravity="center_horizontal"
+                    android:id="@+id/showDatePickerButton"
+                    android:paddingLeft="15dp"
+                    android:textStyle="bold"
+                    android:textSize="8pt"
+                    android:singleLine="false" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:text="@string/time"
+                    android:gravity="center"
+                    android:textSize="6pt"
+                    android:id="@+id/timeTextView"
+                    android:paddingLeft="20dp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/sample_time"
+                    android:textStyle="bold"
+                    android:textSize="8pt"
+                    android:layout_gravity="center_horizontal"
+                    android:id="@+id/showTimePickerButton"
+                    android:paddingLeft="15dp" />
+            </LinearLayout>
+
+
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/save"
+                android:layout_marginTop="10pt"
+                android:layout_gravity="center_horizontal"
+                android:id="@+id/addWidgetButton" />
+        </LinearLayout>
+    </ScrollView>
+</LinearLayout>

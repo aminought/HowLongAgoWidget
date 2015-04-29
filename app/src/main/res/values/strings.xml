@@ -1,0 +1,15 @@
+<resources>
+    <string name="app_name">How Long Ago Widget</string>
+    <string name="appwidget_text">EXAMPLE</string>
+    <string name="configure">Configure</string>
+    <string name="add_widget">Add widget</string>
+    <string name="loading">Loading…</string>
+    <string name="hello_sun">Привет, солнышко!</string>
+    <string name="what">Какое событие ты хочешь запомнить?</string>
+    <string name="when">Когда оно произошло?</string>
+    <string name="date">Дата:</string>
+    <string name="sample_date">22.03.2015</string>
+    <string name="time">Время:</string>
+    <string name="sample_time">00:00</string>
+    <string name="save">Сохранить</string>
+</resources>
