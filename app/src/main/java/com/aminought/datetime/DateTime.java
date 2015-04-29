@@ -76,17 +76,15 @@ public class DateTime {
      */
     private int compare(DateTime a, DateTime b) {
         if(a.year > b.year) return 1;
-        if(a.month > b.month) return 1;
-        if(a.day > b.day) return 1;
-        if(a.hour > b.hour) return 1;
-        if(a.minute > b.minute) return 1;
-
         if(a.year < b.year) return -1;
+        if(a.month > b.month) return 1;
         if(a.month < b.month) return -1;
+        if(a.day > b.day) return 1;
         if(a.day < b.day) return -1;
+        if(a.hour > b.hour) return 1;
         if(a.hour < b.hour) return -1;
+        if(a.minute > b.minute) return 1;
         if(a.minute < b.minute) return -1;
-
         return 0;
     }
 
