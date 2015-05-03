@@ -101,18 +101,32 @@
                 android:layout_height="fill_parent"
                 android:layout_marginTop="10dp">
 
-                <Button
+                <LinearLayout
+                    android:orientation="vertical"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Выбрать изображение"
-                    android:id="@+id/choosePictureButton" />
+                    android:layout_height="wrap_content">
+
+                    <Button
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/choose_image"
+                        android:id="@+id/chooseImageButton" />
+
+                    <Button
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/resetImage"
+                        android:id="@+id/resetImageButton" />
+                </LinearLayout>
 
                 <ImageView
-                    android:layout_width="50dp"
-                    android:layout_height="50dp"
+                    android:layout_width="100dp"
+                    android:layout_height="100dp"
                     android:id="@+id/configImageView"
                     android:scaleType="centerCrop"
-                    android:layout_marginLeft="20dp"/>
+                    android:layout_marginRight="10dp"
+                    android:layout_marginLeft="10dp"/>
+
             </LinearLayout>
 
             <Button

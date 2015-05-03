@@ -93,11 +93,18 @@ public class HLAWidgetConfigureActivity extends FragmentActivity implements View
         Button addWidgetButton = (Button) findViewById(R.id.addWidgetButton);
         addWidgetButton.setOnClickListener(this);
 
-        Button choosePictureButton = (Button) findViewById(R.id.choosePictureButton);
-        choosePictureButton.setOnClickListener(this);
+        Button chooseImageButton = (Button) findViewById(R.id.chooseImageButton);
+        chooseImageButton.setOnClickListener(this);
+
+        Button resetImageButton = (Button) findViewById(R.id.resetImageButton);
+        resetImageButton.setOnClickListener(this);
 
         configImageView = (ImageView) findViewById(R.id.configImageView);
-        configImageView.setImageBitmap(BitmapFactory.decodeFile(event.image));
+        if(!event.image.equals("")) {
+            configImageView.setImageBitmap(BitmapFactory.decodeFile(event.image));
+        } else {
+            configImageView.setImageResource(R.mipmap.icon);
+        }
 
         TextView showDatePickerButton = (TextView) findViewById(R.id.showDatePickerButton);
         Calendar dateCal = new GregorianCalendar(DateTimeCurrentState.year,
@@ -173,17 +180,25 @@ public class HLAWidgetConfigureActivity extends FragmentActivity implements View
             case R.id.showTimePickerButton:
                 showTimePickerDialog();
                 break;
-            case R.id.choosePictureButton:
-                choosePicture();
+            case R.id.chooseImageButton:
+                chooseImage();
+                break;
+            case R.id.resetImageButton:
+                resetImage();
                 break;
         }
     }
 
-    private void choosePicture() {
+    private void chooseImage() {
         Intent intent = new Intent(Intent.ACTION_PICK,
                                    MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
         intent.setType("image/*");
         startActivityForResult(Intent.createChooser(intent, "Выбрать изображение"), PICK_IMAGE);
+    }
+
+    private void resetImage() {
+        configImageView.setImageResource(R.mipmap.icon);
+        event.image = "";
     }
 
     @Override

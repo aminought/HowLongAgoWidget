@@ -88,14 +88,18 @@ public class HLAWidget extends AppWidgetProvider {
         // Construct the RemoteViews object
         RemoteViews views = new RemoteViews(context.getPackageName(), R.layout.hlawidget);
         views.setTextViewText(R.id.mainTextView, Html.fromHtml(full_text));
-        views.setImageViewBitmap(R.id.imageView, BitmapFactory.decodeFile(image));
+        if(!image.equals("")) {
+            views.setImageViewBitmap(R.id.imageView, BitmapFactory.decodeFile(image));
+        } else {
+            views.setImageViewResource(R.id.imageView, R.mipmap.icon);
+        }
 
         Intent configIntent = new Intent(context, HLAWidgetConfigureActivity.class);
         configIntent.setAction(AppWidgetManager.ACTION_APPWIDGET_CONFIGURE);
         configIntent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, appWidgetId);
         PendingIntent pendingIntent = PendingIntent.getActivity(context, appWidgetId,
                                                                 configIntent, 0);
-        views.setOnClickPendingIntent(R.id.imageView, pendingIntent);
+        views.setOnClickPendingIntent(R.id.mainLayout, pendingIntent);
 
         // Instruct the widget manager to update the widget
         appWidgetManager.updateAppWidget(appWidgetId, views);

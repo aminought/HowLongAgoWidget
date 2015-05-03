@@ -1,0 +1,14 @@
+<resources>
+    <string name="app_name">Как давно?</string>
+    <string name="loading">Загрузка…</string>
+    <string name="hello_sun">HLA Widget</string>
+    <string name="what">Какое событие ты хочешь запомнить?</string>
+    <string name="when">Когда оно произошло?</string>
+    <string name="date">Дата:</string>
+    <string name="sample_date">22.03.2015</string>
+    <string name="time">Время:</string>
+    <string name="sample_time">00:00</string>
+    <string name="save">Сохранить</string>
+    <string name="choose_image">Выбрать изображение</string>
+    <string name="resetImage">Сбросить</string>
+</resources>
