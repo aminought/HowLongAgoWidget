@@ -7,6 +7,7 @@ import android.appwidget.AppWidgetProvider;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.BitmapFactory;
 import android.text.Html;
 import android.widget.RemoteViews;
 
@@ -40,6 +41,7 @@ public class HLAWidget extends AppWidgetProvider {
         Event event = HLAWidgetConfigureActivity.database.load(context, appWidgetId);
         String full_text = event.event + "<br><small>";
         String dt = event.datetime;
+        String image = event.image;
 
         Calendar event_calendar = new GregorianCalendar();
         Calendar now_calendar = new GregorianCalendar();
@@ -86,6 +88,7 @@ public class HLAWidget extends AppWidgetProvider {
         // Construct the RemoteViews object
         RemoteViews views = new RemoteViews(context.getPackageName(), R.layout.hlawidget);
         views.setTextViewText(R.id.mainTextView, Html.fromHtml(full_text));
+        views.setImageViewBitmap(R.id.imageView, BitmapFactory.decodeFile(image));
 
         Intent configIntent = new Intent(context, HLAWidgetConfigureActivity.class);
         configIntent.setAction(AppWidgetManager.ACTION_APPWIDGET_CONFIGURE);

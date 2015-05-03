@@ -3,12 +3,17 @@ package com.aminought.hlawidget;
 import android.appwidget.AppWidgetManager;
 import android.content.Context;
 import android.content.Intent;
+import android.database.Cursor;
+import android.graphics.BitmapFactory;
+import android.net.Uri;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.FragmentActivity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.aminought.datetime.DatePickerFragment;
@@ -28,6 +33,9 @@ public class HLAWidgetConfigureActivity extends FragmentActivity implements View
     public static Database database = new Database();
     private DialogFragment newDateFragment = new DatePickerFragment();
     private DialogFragment newTimeFragment = new TimePickerFragment();
+    private ImageView configImageView;
+
+    private final int PICK_IMAGE = 1;
 
     public HLAWidgetConfigureActivity() {
         super();
@@ -85,6 +93,12 @@ public class HLAWidgetConfigureActivity extends FragmentActivity implements View
         Button addWidgetButton = (Button) findViewById(R.id.addWidgetButton);
         addWidgetButton.setOnClickListener(this);
 
+        Button choosePictureButton = (Button) findViewById(R.id.choosePictureButton);
+        choosePictureButton.setOnClickListener(this);
+
+        configImageView = (ImageView) findViewById(R.id.configImageView);
+        configImageView.setImageBitmap(BitmapFactory.decodeFile(event.image));
+
         TextView showDatePickerButton = (TextView) findViewById(R.id.showDatePickerButton);
         Calendar dateCal = new GregorianCalendar(DateTimeCurrentState.year,
                                                 DateTimeCurrentState.month,
@@ -134,7 +148,7 @@ public class HLAWidgetConfigureActivity extends FragmentActivity implements View
                 EditText eventEditText = (EditText) findViewById(R.id.eventEditText);
 
                 int month = DateTimeCurrentState.month + 1;
-                event = new Event();
+//                event = new Event();
                 event.event = eventEditText.getText().toString();
                 event.datetime = DateTimeCurrentState.year + "-" +
                                 month + "-" +
@@ -159,6 +173,36 @@ public class HLAWidgetConfigureActivity extends FragmentActivity implements View
             case R.id.showTimePickerButton:
                 showTimePickerDialog();
                 break;
+            case R.id.choosePictureButton:
+                choosePicture();
+                break;
+        }
+    }
+
+    private void choosePicture() {
+        Intent intent = new Intent(Intent.ACTION_PICK,
+                                   MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+        intent.setType("image/*");
+        startActivityForResult(Intent.createChooser(intent, "Выбрать изображение"), PICK_IMAGE);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if(resultCode == RESULT_OK) {
+            switch(requestCode) {
+                case PICK_IMAGE:
+                    Uri image = data.getData();
+                    configImageView.setImageURI(image);
+                    String[] filePathColumn = {MediaStore.Images.Media.DATA};
+                    Cursor cursor = getContentResolver().query(image, filePathColumn, null, null, null);
+                    cursor.moveToFirst();
+                    int columnIndex = cursor.getColumnIndex(filePathColumn[0]);
+                    String imageDecodableString = cursor.getString(columnIndex);
+                    cursor.close();
+                    event.image = imageDecodableString;
+                    break;
+            }
         }
     }
 }
