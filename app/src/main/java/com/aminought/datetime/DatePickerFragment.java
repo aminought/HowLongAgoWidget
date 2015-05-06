@@ -4,6 +4,7 @@ import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
+import android.view.View;
 import android.widget.DatePicker;
 import android.widget.TextView;
 
@@ -16,6 +17,8 @@ import java.util.GregorianCalendar;
 public class DatePickerFragment extends DialogFragment
         implements DatePickerDialog.OnDateSetListener {
 
+    private int vId;
+
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         // Use the current date as the default date in the picker
@@ -24,6 +27,7 @@ public class DatePickerFragment extends DialogFragment
         int year = args.getInt("year");
         int month = args.getInt("month");
         int day = args.getInt("day");
+        vId = args.getInt("view_id");
 
         // Create a new instance of DatePickerDialog and return it
         return new DatePickerDialog(getActivity(), this, year, month, day);
@@ -34,8 +38,7 @@ public class DatePickerFragment extends DialogFragment
         DateTimeCurrentState.month = month;
         DateTimeCurrentState.day = day;
 
-        TextView showDatePickerButton = (TextView) getActivity()
-                                        .findViewById(R.id.showDatePickerButton);
+        TextView showDatePickerButton = (TextView) getActivity().findViewById(vId);
         Calendar dateCal = new GregorianCalendar(DateTimeCurrentState.year,
                                                  DateTimeCurrentState.month,
                                                  DateTimeCurrentState.day);
@@ -49,5 +52,6 @@ public class DatePickerFragment extends DialogFragment
         DateTimeCurrentState.year = args.getInt("year");
         DateTimeCurrentState.month = args.getInt("month");
         DateTimeCurrentState.day = args.getInt("day");
+        vId = args.getInt("view_id");
     }
 }

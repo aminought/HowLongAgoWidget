@@ -1,5 +1,7 @@
 package com.aminought.datetime;
 
+import java.util.Calendar;
+
 public class DateTime {
     private int minute;
     private int hour;
@@ -15,6 +17,22 @@ public class DateTime {
         this.day = day;
         this.month = month;
         this.year = year;
+    }
+
+    public DateTime() {
+        this.minute = 0;
+        this.hour = 0;
+        this.day = 0;
+        this.month = 0;
+        this.year = 0;
+    }
+
+    public DateTime(Calendar date) {
+        this.year = date.get(Calendar.YEAR);
+        this.month = date.get(Calendar.MONTH);
+        this.day = date.get(Calendar.DAY_OF_MONTH);
+        this.hour = date.get(Calendar.HOUR_OF_DAY);
+        this.minute = date.get(Calendar.MINUTE);
     }
 
     public DateTime diff(DateTime x) {
@@ -100,6 +118,25 @@ public class DateTime {
         a.day = tmp.day;
         a.hour = tmp.hour;
         a.minute = tmp.minute;
+    }
+
+    public String toString(String textColor1, String textColor2, boolean isLB) {
+        String full_text = "<small>";
+        String color1 = "<font color='" + textColor1 +"'>";
+        String color2 = "<font color='" + textColor2 +"'>";
+        String font = "</font>";
+        if(this.year > 0) full_text += color1 + this.year + font + color2 +
+                (this.year==1 ? " year " : " years ") + font + (isLB?"<br>":"");
+        if(this.month > 0) full_text += color1 + this.month + font + color2 +
+                (this.month==1 ? " month " : " months ") + font + (isLB?"<br>":"");
+        if(this.day > 0) full_text += color1 + this.day + font + color2 +
+                (this.day==1 ? " day " : " days ") + font + (isLB?"<br>":"");
+        if(this.hour > 0) full_text += color1 + this.hour + font + color2 +
+                (this.hour==1 ? " hour " : " hours ") + font + (isLB?"<br>":"");
+        if(this.minute > 0) full_text += color1 + this.minute +  font + color2 +
+                (this.minute==1 ? " minute " : " minutes ") + font + (isLB?"<br>":"");
+        full_text += "</small>";
+        return full_text;
     }
 
     public int getDay() {

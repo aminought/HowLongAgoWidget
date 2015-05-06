@@ -39,7 +39,7 @@ public class HLAWidget extends AppWidgetProvider {
     static void updateAppWidget(Context context, AppWidgetManager appWidgetManager,
                                 int appWidgetId) {
         Event event = HLAWidgetConfigureActivity.database.load(context, appWidgetId);
-        String full_text = event.event + "<br><small>";
+        String full_text = event.event + "<br>";
         String dt = event.datetime;
         String image = event.image;
 
@@ -70,20 +70,7 @@ public class HLAWidget extends AppWidgetProvider {
                                     now_calendar.get(Calendar.MINUTE));
         DateTime dtNew = dtB.diff(dtA);
 
-        String color = "<font color='#FFFF00'>";
-        String font = "</font>";
-
-        if(dtNew.getYear() > 0) full_text += color + dtNew.getYear() +
-                font + (dtNew.getYear()==1 ? " year " : " years ");
-        if(dtNew.getMonth() > 0) full_text += color + dtNew.getMonth() +
-                font + (dtNew.getMonth()==1 ? " month " : " months ");
-        if(dtNew.getDay() > 0) full_text += color + dtNew.getDay() +
-                font + (dtNew.getDay()==1 ? " day " : " days ");
-        if(dtNew.getHour() > 0) full_text += color + dtNew.getHour()
-                + font + (dtNew.getHour()==1 ? " hour " : " hours ");
-        if(dtNew.getMinute() > 0) full_text += color + dtNew.getMinute()
-                + font + (dtNew.getMinute()==1 ? " minute " : " minutes ");
-        full_text += "</small>";
+        full_text += dtNew.toString("#ffff00", "#ffffff", false);
 
         // Construct the RemoteViews object
         RemoteViews views = new RemoteViews(context.getPackageName(), R.layout.hlawidget);

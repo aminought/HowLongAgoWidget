@@ -134,6 +134,7 @@ public class HLAWidgetConfigureActivity extends FragmentActivity implements View
         dateArgs.putInt("year", DateTimeCurrentState.year);
         dateArgs.putInt("month", DateTimeCurrentState.month);
         dateArgs.putInt("day", DateTimeCurrentState.day);
+        dateArgs.putInt("view_id", R.id.showDatePickerButton);
         newDateFragment.setArguments(dateArgs);
         newDateFragment.show(getSupportFragmentManager(), "datePicker");
     }
@@ -142,6 +143,7 @@ public class HLAWidgetConfigureActivity extends FragmentActivity implements View
         Bundle timeArgs = new Bundle();
         timeArgs.putInt("hour", DateTimeCurrentState.hour);
         timeArgs.putInt("minute", DateTimeCurrentState.minute);
+        timeArgs.putInt("view_id", R.id.showTimePickerButton);
         newTimeFragment.setArguments(timeArgs);
         newTimeFragment.show(getSupportFragmentManager(), "timePicker");
     }
