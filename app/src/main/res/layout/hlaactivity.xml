@@ -1,159 +1,170 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
-    android:layout_height="match_parent" android:paddingLeft="@dimen/activity_horizontal_margin"
+    xmlns:ads="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#4c4d51"
+    android:orientation="vertical"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    android:paddingBottom="@dimen/activity_vertical_margin"
-    android:orientation="vertical"
-    tools:context="com.aminought.hlawidget.HLAActivity"
-    android:background="#4c4d51">
+    tools:context="com.aminought.hlawidget.HLAActivity">
 
     <ScrollView
+        android:id="@+id/scrollView2"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/scrollView2" >>
+        android:layout_height="wrap_content">
+
         <LinearLayout
-            android:orientation="vertical"
             android:layout_width="fill_parent"
-            android:layout_height="fill_parent">
+            android:layout_height="fill_parent"
+            android:orientation="vertical">
 
             <TextView
+                android:id="@+id/titleActivityTextView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textAppearance="?android:attr/textAppearanceLarge"
-                android:text="HLA Widget"
                 android:layout_gravity="center_horizontal"
                 android:layout_marginBottom="20dp"
-                android:textSize="40dp"
-                android:id="@+id/titleActivityTextView"
-                android:textColor="#ffff00" />
+                android:text="HLA Widget"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:textColor="#ffff00"
+                android:textSize="40dp" />
 
             <TextView
+                android:id="@+id/firstDateTextView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textAppearance="?android:attr/textAppearanceMedium"
-                android:text="First date:"
-                android:textColor="#ffffff"
                 android:layout_marginBottom="5dp"
-                android:id="@+id/firstDateTextView" />
+                android:text="First date:"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:textColor="#ffffff" />
 
             <LinearLayout
-                android:orientation="horizontal"
-                android:layout_marginBottom="7dp"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="7dp"
+                android:orientation="horizontal">
 
                 <TextView
+                    android:id="@+id/date1ActivityTextView"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textAppearance="?android:attr/textAppearanceMedium"
-                    android:text="Date:"
                     android:layout_marginRight="5dp"
-                    android:textColor="#ffff00"
-                    android:id="@+id/date1ActivityTextView" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textAppearance="?android:attr/textAppearanceLarge"
-                    android:text="14.12.1994"
-                    android:layout_marginRight="7dp"
-                    android:textStyle="bold"
-                    android:textColor="#ffffff"
-                    android:id="@+id/showDatePicker1ActivityButton" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:text="Date:"
                     android:textAppearance="?android:attr/textAppearanceMedium"
-                    android:id="@+id/time1ActivityTextView"
-                    android:text="Time:"
-                    android:textColor="#ffff00"
-                    android:layout_marginRight="5dp" />
+                    android:textColor="#ffff00" />
 
                 <TextView
+                    android:id="@+id/showDatePicker1ActivityButton"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginRight="7dp"
+                    android:text="14.12.1994"
                     android:textAppearance="?android:attr/textAppearanceLarge"
-                    android:text="00:00"
-                    android:textStyle="bold"
                     android:textColor="#ffffff"
-                    android:id="@+id/showTimePicker1ActivityButton" />
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/time1ActivityTextView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="5dp"
+                    android:text="Time:"
+                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    android:textColor="#ffff00" />
+
+                <TextView
+                    android:id="@+id/showTimePicker1ActivityButton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="00:00"
+                    android:textAppearance="?android:attr/textAppearanceLarge"
+                    android:textColor="#ffffff"
+                    android:textStyle="bold" />
             </LinearLayout>
 
             <TextView
+                android:id="@+id/secondDateTextView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textAppearance="?android:attr/textAppearanceMedium"
-                android:text="Second date:"
-                android:textColor="#ffffff"
                 android:layout_marginBottom="5dp"
-                android:id="@+id/secondDateTextView" />
+                android:text="Second date:"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:textColor="#ffffff" />
 
             <LinearLayout
-                android:orientation="horizontal"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content" >
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
 
                 <TextView
+                    android:id="@+id/date2ActivityTextView"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    android:layout_marginRight="5dp"
                     android:text="Date:"
-                    android:layout_marginRight="5dp"
-                    android:textColor="#ffff00"
-                    android:id="@+id/date2ActivityTextView" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textAppearance="?android:attr/textAppearanceLarge"
-                    android:text="14.12.1994"
-                    android:textStyle="bold"
-                    android:layout_marginRight="7dp"
-                    android:textColor="#ffffff"
-                    android:id="@+id/showDatePicker2ActivityButton" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
                     android:textAppearance="?android:attr/textAppearanceMedium"
-                    android:id="@+id/time2ActivityTextView"
-                    android:layout_marginRight="5dp"
-                    android:textColor="#ffff00"
-                    android:text="Time:" />
+                    android:textColor="#ffff00" />
 
                 <TextView
+                    android:id="@+id/showDatePicker2ActivityButton"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textAppearance="?android:attr/textAppearanceLarge"
-                    android:text="00:00"
-                    android:textStyle="bold"
                     android:layout_marginRight="7dp"
+                    android:text="14.12.1994"
+                    android:textAppearance="?android:attr/textAppearanceLarge"
                     android:textColor="#ffffff"
-                    android:id="@+id/showTimePicker2ActivityButton" />
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/time2ActivityTextView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="5dp"
+                    android:text="Time:"
+                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    android:textColor="#ffff00" />
+
+                <TextView
+                    android:id="@+id/showTimePicker2ActivityButton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="7dp"
+                    android:text="00:00"
+                    android:textAppearance="?android:attr/textAppearanceLarge"
+                    android:textColor="#ffffff"
+                    android:textStyle="bold" />
             </LinearLayout>
 
             <Button
+                android:id="@+id/computeDiffButton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Compute the difference"
                 android:layout_gravity="center_horizontal"
-                android:background="#7b7b7b"
-                android:textColor="#ffff00"
-                android:padding="5dp"
-                android:layout_marginTop="20dp"
                 android:layout_marginBottom="20dp"
-                android:id="@+id/computeDiffButton" />
+                android:layout_marginTop="20dp"
+                android:background="#7b7b7b"
+                android:padding="5dp"
+                android:text="Compute the difference"
+                android:textColor="#ffff00" />
 
             <TextView
+                android:id="@+id/differenceTextView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="1 year\n1 month\n1 day\n1 hour\n1 minute"
-                android:textSize="30dp"
                 android:layout_gravity="center"
-                android:id="@+id/differenceTextView" />
+                android:text="1 year\n1 month\n1 day\n1 hour\n1 minute"
+                android:textSize="30dp" />
         </LinearLayout>
     </ScrollView>
+
+    <com.google.android.gms.ads.AdView
+        android:id="@+id/MyAdView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        ads:adSize="BANNER"
+        ads:adUnitId="ca-app-pub-7011780208884328/5697220494" />
 
 </LinearLayout>
