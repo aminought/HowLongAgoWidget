@@ -12,8 +12,6 @@ import android.widget.TextView;
 import com.aminought.datetime.DatePickerFragment;
 import com.aminought.datetime.DateTime;
 import com.aminought.datetime.TimePickerFragment;
-import com.google.android.gms.ads.AdRequest;
-import com.google.android.gms.ads.AdView;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -64,11 +62,6 @@ public class HLAActivity extends FragmentActivity implements View.OnClickListene
         showTimePicker2ActivityButton.setText(timeFormat.format(now_date));
 
         differenceTextView.setText("");
-
-        // Add ads
-        AdView adView = (AdView) findViewById(R.id.MyAdView);
-        AdRequest adRequest = new AdRequest.Builder().build();
-        adView.loadAd(adRequest);
     }
 
     public void showDatePickerDialog(int vId) {
