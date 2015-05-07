@@ -20,6 +20,8 @@ import android.widget.TextView;
 import com.aminought.datetime.DatePickerFragment;
 import com.aminought.datetime.DateTimeCurrentState;
 import com.aminought.datetime.TimePickerFragment;
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdView;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -132,6 +134,11 @@ public class HLAWidgetConfigureActivity extends FragmentActivity implements View
         SimpleDateFormat timeFormat = new SimpleDateFormat("HH:mm");
         showTimePickerButton.setText(timeFormat.format(timeCal.getTime()));
         showTimePickerButton.setOnClickListener(this);
+
+        // Add ads
+        AdView adView = (AdView) findViewById(R.id.ConfigureAdView);
+        AdRequest adRequest = new AdRequest.Builder().build();
+        adView.loadAd(adRequest);
 
         // If this activity was started with an intent without an app widget ID, finish with an error.
         if (mAppWidgetId == AppWidgetManager.INVALID_APPWIDGET_ID) {

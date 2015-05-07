@@ -166,7 +166,7 @@
         android:layout_height="fill_parent">
 
         <com.google.android.gms.ads.AdView
-            android:id="@+id/MyAdView"
+            android:id="@+id/ActivityAdView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"

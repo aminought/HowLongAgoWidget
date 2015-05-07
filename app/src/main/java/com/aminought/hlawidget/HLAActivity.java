@@ -66,7 +66,7 @@ public class HLAActivity extends FragmentActivity implements View.OnClickListene
         differenceTextView.setText("");
 
         // Add ads
-        AdView adView = (AdView) findViewById(R.id.MyAdView);
+        AdView adView = (AdView) findViewById(R.id.ActivityAdView);
         AdRequest adRequest = new AdRequest.Builder().build();
         adView.loadAd(adRequest);
     }
