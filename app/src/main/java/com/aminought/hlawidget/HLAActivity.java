@@ -32,7 +32,7 @@ public class HLAActivity extends FragmentActivity implements View.OnClickListene
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_hla);
+        setContentView(R.layout.hlaactivity);
 
         Button computeDifference = (Button) findViewById(R.id.computeDiffButton);
         computeDifference.setOnClickListener(this);

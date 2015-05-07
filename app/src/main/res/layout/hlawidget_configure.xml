@@ -5,6 +5,7 @@
     android:orientation="vertical"
     android:padding="5dp"
     android:id="@+id/linearLayout"
+    android:background="#4c4d51"
     android:weightSum="1">
 
     <ScrollView
@@ -26,19 +27,23 @@
                 android:textAppearance="?android:attr/textAppearanceSmall"
                 android:text="@string/hello_sun"
                 android:layout_gravity="center"
-                android:textSize="8pt"
                 android:paddingBottom="10dp"
+                android:textSize="40dp"
+                android:textColor="#ffff00"
                 android:id="@+id/titleTextView" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/what"
+                android:textColor="#ffffff"
                 android:id="@+id/whatEventTextView" />
 
             <EditText
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:textColor="#ffffff"
+                android:textColorHint="#ffffff"
                 android:layout_marginBottom="5pt"
                 android:id="@+id/eventEditText" />
 
@@ -46,6 +51,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/when"
+                android:textColor="#ffffff"
                 android:textSize="6pt"
                 android:id="@+id/whenEditView"
                 android:paddingBottom="10dp" />
@@ -61,12 +67,14 @@
                     android:text="@string/date"
                     android:gravity="center"
                     android:textSize="6pt"
+                    android:textColor="#ffffff"
                     android:id="@+id/dateTextView" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/sample_date"
+                    android:textColor="#ffffff"
                     android:layout_gravity="center_horizontal"
                     android:id="@+id/showDatePickerButton"
                     android:paddingLeft="15dp"
@@ -78,6 +86,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:text="@string/time"
+                    android:textColor="#ffffff"
                     android:gravity="center"
                     android:textSize="6pt"
                     android:id="@+id/timeTextView"
@@ -87,6 +96,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/sample_time"
+                    android:textColor="#ffffff"
                     android:textStyle="bold"
                     android:textSize="8pt"
                     android:layout_gravity="center_horizontal"
@@ -110,12 +120,18 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@string/choose_image"
+                        android:padding="5dp"
+                        android:background="@color/button_material_dark"
+                        android:textColor="#ffff00"
                         android:id="@+id/chooseImageButton" />
 
                     <Button
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@string/resetImage"
+                        android:background="@color/button_material_dark"
+                        android:textColor="#ffff00"
+                        android:layout_marginTop="5dp"
                         android:id="@+id/resetImageButton" />
                 </LinearLayout>
 
@@ -123,6 +139,7 @@
                     android:layout_width="100dp"
                     android:layout_height="100dp"
                     android:id="@+id/configImageView"
+                    android:src="@drawable/icon_100"
                     android:scaleType="centerCrop"
                     android:layout_marginRight="10dp"
                     android:layout_marginLeft="10dp"/>
@@ -133,6 +150,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/save"
+                android:background="@color/button_material_dark"
+                android:textColor="#ffff00"
                 android:layout_marginTop="10pt"
                 android:layout_gravity="center_horizontal"
                 android:id="@+id/addWidgetButton" />

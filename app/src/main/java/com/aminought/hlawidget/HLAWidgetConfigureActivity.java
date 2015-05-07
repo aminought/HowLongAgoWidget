@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.BitmapFactory;
+import android.graphics.Typeface;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
@@ -103,8 +104,12 @@ public class HLAWidgetConfigureActivity extends FragmentActivity implements View
         if(!event.image.equals("")) {
             configImageView.setImageBitmap(BitmapFactory.decodeFile(event.image));
         } else {
-            configImageView.setImageResource(R.mipmap.icon);
+            configImageView.setImageResource(R.drawable.icon_100);
         }
+
+        TextView titleTextView = (TextView) findViewById(R.id.titleTextView);
+        Typeface font = Typeface.createFromAsset(getAssets(), "BuxtonSketch.ttf");
+        titleTextView.setTypeface(font);
 
         TextView showDatePickerButton = (TextView) findViewById(R.id.showDatePickerButton);
         Calendar dateCal = new GregorianCalendar(DateTimeCurrentState.year,
