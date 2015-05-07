@@ -51,6 +51,8 @@ public class HLAActivity extends FragmentActivity implements View.OnClickListene
         Typeface font = Typeface.createFromAsset(getAssets(), "BuxtonSketch.ttf");
         titleActivityTextView.setTypeface(font);
 
+        //Set current date
+        //Possibly, I will fix that
         Date now_date = new Date();
         SimpleDateFormat dateFormat = new SimpleDateFormat("dd.MM.yyyy");
         SimpleDateFormat timeFormat = new SimpleDateFormat("HH:mm");
@@ -65,6 +67,7 @@ public class HLAActivity extends FragmentActivity implements View.OnClickListene
     public void showDatePickerDialog(int vId) {
         Bundle dateArgs = new Bundle();
 
+        // Set time in date picker depending of time on text view
         TextView tv = (TextView) findViewById(vId);
         String dateString = tv.getText().toString();
         SimpleDateFormat dateFormat = new SimpleDateFormat("dd.MM.yyyy");
@@ -77,6 +80,7 @@ public class HLAActivity extends FragmentActivity implements View.OnClickListene
         Calendar cal = new GregorianCalendar();
         cal.setTime(date);
 
+        // Pass arguments into bundle
         dateArgs.putInt("year", cal.get(Calendar.YEAR));
         dateArgs.putInt("month", cal.get(Calendar.MONTH));
         dateArgs.putInt("day", cal.get(Calendar.DAY_OF_MONTH));
@@ -88,6 +92,7 @@ public class HLAActivity extends FragmentActivity implements View.OnClickListene
     public void showTimePickerDialog(int vId) {
         Bundle timeArgs = new Bundle();
 
+        // Set time in date picker depending of time on text view
         TextView tv = (TextView) findViewById(vId);
         String timeString = tv.getText().toString();
         SimpleDateFormat timeFormat = new SimpleDateFormat("HH:mm");
@@ -100,6 +105,7 @@ public class HLAActivity extends FragmentActivity implements View.OnClickListene
         Calendar cal = new GregorianCalendar();
         cal.setTime(date);
 
+        // Pass arguments into bundle
         timeArgs.putInt("hour", cal.get(Calendar.HOUR_OF_DAY));
         timeArgs.putInt("minute", cal.get(Calendar.MINUTE));
         timeArgs.putInt("view_id", vId);

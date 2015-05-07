@@ -19,14 +19,6 @@ public class DateTime {
         this.year = year;
     }
 
-    public DateTime() {
-        this.minute = 0;
-        this.hour = 0;
-        this.day = 0;
-        this.month = 0;
-        this.year = 0;
-    }
-
     public DateTime(Calendar date) {
         this.year = date.get(Calendar.YEAR);
         this.month = date.get(Calendar.MONTH);

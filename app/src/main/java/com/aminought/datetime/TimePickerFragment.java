@@ -7,8 +7,6 @@ import android.support.v4.app.DialogFragment;
 import android.widget.TextView;
 import android.widget.TimePicker;
 
-import com.aminought.hlawidget.R;
-
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.GregorianCalendar;

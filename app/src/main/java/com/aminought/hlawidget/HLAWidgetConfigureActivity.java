@@ -58,11 +58,13 @@ public class HLAWidgetConfigureActivity extends FragmentActivity implements View
 
         EditText eventEditText = (EditText) findViewById(R.id.eventEditText);
 
+        // Load data from preferences
         event = database.load(this, mAppWidgetId);
         eventEditText.setText(event.event);
 
+        // Create calendar with event date
+        // If event date is empty then calendar has current time
         Calendar calendar = new GregorianCalendar();
-
         Date event_date = new Date();
         SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm");
         try {
@@ -72,23 +74,24 @@ public class HLAWidgetConfigureActivity extends FragmentActivity implements View
         }
         calendar.setTime(event_date);
 
+        // Write event date into current state
         DateTimeCurrentState.year = calendar.get(Calendar.YEAR);
         DateTimeCurrentState.month = calendar.get(Calendar.MONTH);
         DateTimeCurrentState.day = calendar.get(Calendar.DAY_OF_MONTH);
         DateTimeCurrentState.hour = calendar.get(Calendar.HOUR_OF_DAY);
         DateTimeCurrentState.minute = calendar.get(Calendar.MINUTE);
 
+        // Send event date into DateFragment
         Bundle dateArgs = new Bundle();
         dateArgs.putInt("year", DateTimeCurrentState.year);
         dateArgs.putInt("month", DateTimeCurrentState.month);
         dateArgs.putInt("day", DateTimeCurrentState.day);
-
         newDateFragment.setArguments(dateArgs);
 
+        // Send event time into TimeFragment
         Bundle timeArgs = new Bundle();
         timeArgs.putInt("hour", DateTimeCurrentState.hour);
         timeArgs.putInt("minute", DateTimeCurrentState.minute);
-
         newTimeFragment.setArguments(timeArgs);
 
         Button addWidgetButton = (Button) findViewById(R.id.addWidgetButton);
@@ -100,6 +103,7 @@ public class HLAWidgetConfigureActivity extends FragmentActivity implements View
         Button resetImageButton = (Button) findViewById(R.id.resetImageButton);
         resetImageButton.setOnClickListener(this);
 
+        // Set image
         configImageView = (ImageView) findViewById(R.id.configImageView);
         configImageView.setOnClickListener(this);
         if(!event.image.equals("")) {
@@ -108,10 +112,12 @@ public class HLAWidgetConfigureActivity extends FragmentActivity implements View
             configImageView.setImageResource(R.drawable.icon_100);
         }
 
+        // Add custom font for title
         TextView titleTextView = (TextView) findViewById(R.id.titleTextView);
         Typeface font = Typeface.createFromAsset(getAssets(), "BuxtonSketch.ttf");
         titleTextView.setTypeface(font);
 
+        // Write date and time into text views
         TextView showDatePickerButton = (TextView) findViewById(R.id.showDatePickerButton);
         Calendar dateCal = new GregorianCalendar(DateTimeCurrentState.year,
                                                 DateTimeCurrentState.month,
@@ -162,8 +168,8 @@ public class HLAWidgetConfigureActivity extends FragmentActivity implements View
                 // When the button is clicked, store the string locally
                 EditText eventEditText = (EditText) findViewById(R.id.eventEditText);
 
+                // Save text and date into event object
                 int month = DateTimeCurrentState.month + 1;
-//                event = new Event();
                 event.event = eventEditText.getText().toString();
                 event.datetime = DateTimeCurrentState.year + "-" +
                                 month + "-" +

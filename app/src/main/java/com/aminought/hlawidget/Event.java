@@ -1,7 +1,5 @@
 package com.aminought.hlawidget;
 
-import android.net.Uri;
-
 import java.text.SimpleDateFormat;
 import java.util.Date;
 

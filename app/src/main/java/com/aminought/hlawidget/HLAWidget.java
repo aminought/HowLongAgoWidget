@@ -22,6 +22,7 @@ import java.util.GregorianCalendar;
 public class HLAWidget extends AppWidgetProvider {
 
     final String UPDATE_ALL_WIDGETS = "update_all_widgets";
+    final String DELETE_ALL_WIDGETS = "delete_all_widgets";
 
     @Override
     public void onUpdate(Context context, AppWidgetManager appWidgetManager, int[] ids) {
@@ -38,6 +39,7 @@ public class HLAWidget extends AppWidgetProvider {
 
     static void updateAppWidget(Context context, AppWidgetManager appWidgetManager,
                                 int appWidgetId) {
+        // Load data from preferences
         Event event = HLAWidgetConfigureActivity.database.load(context, appWidgetId);
         String full_text = event.event + "<br>";
         String dt = event.datetime;
@@ -55,6 +57,7 @@ public class HLAWidget extends AppWidgetProvider {
         }
         Date now_date = new Date();
 
+        // Create calendars with event time and current time
         event_calendar.setTime(event_date);
         now_calendar.setTime(now_date);
 
@@ -68,11 +71,13 @@ public class HLAWidget extends AppWidgetProvider {
                                     now_calendar.get(Calendar.DAY_OF_MONTH),
                                     now_calendar.get(Calendar.HOUR_OF_DAY),
                                     now_calendar.get(Calendar.MINUTE));
+        // Compute the difference
         DateTime dtNew = dtB.diff(dtA);
 
         full_text += dtNew.toString("#ffff00", "#ffffff", false);
 
         // Construct the RemoteViews object
+        // Write difference in text view and set image in image view
         RemoteViews views = new RemoteViews(context.getPackageName(), R.layout.hlawidget);
         views.setTextViewText(R.id.mainTextView, Html.fromHtml(full_text));
         if(!image.equals("")) {
@@ -81,6 +86,7 @@ public class HLAWidget extends AppWidgetProvider {
             views.setImageViewResource(R.id.imageView, R.mipmap.icon);
         }
 
+        // Create intent for cofigure activity by pressing on widget
         Intent configIntent = new Intent(context, HLAWidgetConfigureActivity.class);
         configIntent.setAction(AppWidgetManager.ACTION_APPWIDGET_CONFIGURE);
         configIntent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, appWidgetId);
@@ -95,6 +101,7 @@ public class HLAWidget extends AppWidgetProvider {
     @Override
     public void onEnabled(Context context) {
         super.onEnabled(context);
+        // Send broadcast message to update all widgets
         Intent intent = new Intent(context, com.aminought.hlawidget.HLAWidget.class);
         intent.setAction(UPDATE_ALL_WIDGETS);
         PendingIntent pIntent = PendingIntent.getBroadcast(context, 0, intent, 0);
@@ -105,14 +112,13 @@ public class HLAWidget extends AppWidgetProvider {
         AppWidgetManager appWidgetManager = AppWidgetManager.getInstance(context);
         int ids[] = appWidgetManager.getAppWidgetIds(thisAppWidget);
         updateAll(context, appWidgetManager, ids);
-
     }
 
     @Override
     public void onDisabled(Context context) {
         super.onDisabled(context);
         Intent intent = new Intent(context, HLAWidget.class);
-        intent.setAction(UPDATE_ALL_WIDGETS);
+        intent.setAction(DELETE_ALL_WIDGETS);
         PendingIntent pIntent = PendingIntent.getBroadcast(context, 0, intent, 0);
         AlarmManager alarmManager = (AlarmManager) context
                 .getSystemService(Context.ALARM_SERVICE);
@@ -122,19 +128,29 @@ public class HLAWidget extends AppWidgetProvider {
     @Override
     public void onReceive(Context context, Intent intent) {
         super.onReceive(context, intent);
+        ComponentName thisAppWidget = new ComponentName(
+                context.getPackageName(), getClass().getName());
+        AppWidgetManager appWidgetManager = AppWidgetManager
+                .getInstance(context);
+        int ids[] = appWidgetManager.getAppWidgetIds(thisAppWidget);
+
         if (intent.getAction().equalsIgnoreCase(UPDATE_ALL_WIDGETS)) {
-            ComponentName thisAppWidget = new ComponentName(
-                    context.getPackageName(), getClass().getName());
-            AppWidgetManager appWidgetManager = AppWidgetManager
-                    .getInstance(context);
-            int ids[] = appWidgetManager.getAppWidgetIds(thisAppWidget);
             updateAll(context, appWidgetManager, ids);
+        } else if(intent.getAction().equalsIgnoreCase(DELETE_ALL_WIDGETS)) {
+            deleteAll(context, ids);
         }
     }
 
     private void updateAll(Context context, AppWidgetManager appWidgetManager, int[] ids) {
         for (int appWidgetID : ids) {
                 updateAppWidget(context, appWidgetManager, appWidgetID);
+        }
+    }
+
+    private void deleteAll(Context context, int[] ids) {
+        Database db = new Database();
+        for(int id : ids) {
+            db.delete(context, id);
         }
     }
 }
