@@ -101,6 +101,7 @@ public class HLAWidgetConfigureActivity extends FragmentActivity implements View
         resetImageButton.setOnClickListener(this);
 
         configImageView = (ImageView) findViewById(R.id.configImageView);
+        configImageView.setOnClickListener(this);
         if(!event.image.equals("")) {
             configImageView.setImageBitmap(BitmapFactory.decodeFile(event.image));
         } else {
@@ -188,6 +189,7 @@ public class HLAWidgetConfigureActivity extends FragmentActivity implements View
                 showTimePickerDialog();
                 break;
             case R.id.chooseImageButton:
+            case R.id.configImageView:
                 chooseImage();
                 break;
             case R.id.resetImageButton:
