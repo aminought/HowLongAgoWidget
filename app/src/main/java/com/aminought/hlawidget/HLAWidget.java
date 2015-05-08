@@ -32,7 +32,7 @@ public class HLAWidget extends AppWidgetProvider {
     @Override
     public void onDeleted(Context context, int[] appWidgetIds) {
         for (int id : appWidgetIds) {
-            HLAWidgetConfigureActivity.database.delete(context, id);
+            HLAWidgetConfigureActivity.database.deleteEvent(context, id);
         }
     }
 
@@ -40,7 +40,7 @@ public class HLAWidget extends AppWidgetProvider {
     static void updateAppWidget(Context context, AppWidgetManager appWidgetManager,
                                 int appWidgetId) {
         // Load data from preferences
-        Event event = HLAWidgetConfigureActivity.database.load(context, appWidgetId);
+        Event event = HLAWidgetConfigureActivity.database.loadEvent(context, appWidgetId);
         String full_text = event.event + "<br>";
         String dt = event.datetime;
         String image = event.image;
@@ -150,7 +150,7 @@ public class HLAWidget extends AppWidgetProvider {
     private void deleteAll(Context context, int[] ids) {
         Database db = new Database();
         for(int id : ids) {
-            db.delete(context, id);
+            db.deleteEvent(context, id);
         }
     }
 }

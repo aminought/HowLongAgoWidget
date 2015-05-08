@@ -61,7 +61,7 @@ public class HLAWidgetConfigureActivity extends FragmentActivity implements View
         EditText eventEditText = (EditText) findViewById(R.id.eventEditText);
 
         // Load data from preferences
-        event = database.load(this, mAppWidgetId);
+        event = database.loadEvent(this, mAppWidgetId);
         eventEditText.setText(event.event);
 
         // Create calendar with event date
@@ -183,7 +183,7 @@ public class HLAWidgetConfigureActivity extends FragmentActivity implements View
                                 DateTimeCurrentState.day + " " +
                                 DateTimeCurrentState.hour + ":" +
                                 DateTimeCurrentState.minute;
-                database.save(context, event, mAppWidgetId);
+                database.saveEvent(context, event, mAppWidgetId);
 
                 // It is the responsibility of the configuration activity to update the app widget
                 AppWidgetManager appWidgetManager = AppWidgetManager.getInstance(context);
