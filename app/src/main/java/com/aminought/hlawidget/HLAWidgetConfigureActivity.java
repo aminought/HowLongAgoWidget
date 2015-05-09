@@ -77,23 +77,23 @@ public class HLAWidgetConfigureActivity extends FragmentActivity implements View
         calendar.setTime(event_date);
 
         // Write event date into current state
-        DateTimeCurrentState.year = calendar.get(Calendar.YEAR);
-        DateTimeCurrentState.month = calendar.get(Calendar.MONTH);
-        DateTimeCurrentState.day = calendar.get(Calendar.DAY_OF_MONTH);
-        DateTimeCurrentState.hour = calendar.get(Calendar.HOUR_OF_DAY);
-        DateTimeCurrentState.minute = calendar.get(Calendar.MINUTE);
+        DateTimeCurrentState.year[0] = calendar.get(Calendar.YEAR);
+        DateTimeCurrentState.month[0] = calendar.get(Calendar.MONTH);
+        DateTimeCurrentState.day[0] = calendar.get(Calendar.DAY_OF_MONTH);
+        DateTimeCurrentState.hour[0] = calendar.get(Calendar.HOUR_OF_DAY);
+        DateTimeCurrentState.minute[0] = calendar.get(Calendar.MINUTE);
 
         // Send event date into DateFragment
         Bundle dateArgs = new Bundle();
-        dateArgs.putInt("year", DateTimeCurrentState.year);
-        dateArgs.putInt("month", DateTimeCurrentState.month);
-        dateArgs.putInt("day", DateTimeCurrentState.day);
+        dateArgs.putInt("year", DateTimeCurrentState.year[0]);
+        dateArgs.putInt("month", DateTimeCurrentState.month[0]);
+        dateArgs.putInt("day", DateTimeCurrentState.day[0]);
         newDateFragment.setArguments(dateArgs);
 
         // Send event time into TimeFragment
         Bundle timeArgs = new Bundle();
-        timeArgs.putInt("hour", DateTimeCurrentState.hour);
-        timeArgs.putInt("minute", DateTimeCurrentState.minute);
+        timeArgs.putInt("hour", DateTimeCurrentState.hour[0]);
+        timeArgs.putInt("minute", DateTimeCurrentState.minute[0]);
         newTimeFragment.setArguments(timeArgs);
 
         Button addWidgetButton = (Button) findViewById(R.id.addWidgetButton);
@@ -121,16 +121,16 @@ public class HLAWidgetConfigureActivity extends FragmentActivity implements View
 
         // Write date and time into text views
         TextView showDatePickerButton = (TextView) findViewById(R.id.showDatePickerButton);
-        Calendar dateCal = new GregorianCalendar(DateTimeCurrentState.year,
-                                                DateTimeCurrentState.month,
-                                                DateTimeCurrentState.day);
+        Calendar dateCal = new GregorianCalendar(DateTimeCurrentState.year[0],
+                                                DateTimeCurrentState.month[0],
+                                                DateTimeCurrentState.day[0]);
         SimpleDateFormat dateFormat = new SimpleDateFormat("dd.MM.yyyy");
         showDatePickerButton.setText(dateFormat.format(dateCal.getTime()));
         showDatePickerButton.setOnClickListener(this);
 
         TextView showTimePickerButton = (TextView) findViewById(R.id.showTimePickerButton);
-        Calendar timeCal = new GregorianCalendar(0, 0, 0, DateTimeCurrentState.hour,
-                                                 DateTimeCurrentState.minute);
+        Calendar timeCal = new GregorianCalendar(0, 0, 0, DateTimeCurrentState.hour[0],
+                                                 DateTimeCurrentState.minute[0]);
         SimpleDateFormat timeFormat = new SimpleDateFormat("HH:mm");
         showTimePickerButton.setText(timeFormat.format(timeCal.getTime()));
         showTimePickerButton.setOnClickListener(this);
@@ -150,19 +150,21 @@ public class HLAWidgetConfigureActivity extends FragmentActivity implements View
 
     public void showDatePickerDialog() {
         Bundle dateArgs = new Bundle();
-        dateArgs.putInt("year", DateTimeCurrentState.year);
-        dateArgs.putInt("month", DateTimeCurrentState.month);
-        dateArgs.putInt("day", DateTimeCurrentState.day);
+        dateArgs.putInt("year", DateTimeCurrentState.year[0]);
+        dateArgs.putInt("month", DateTimeCurrentState.month[0]);
+        dateArgs.putInt("day", DateTimeCurrentState.day[0]);
         dateArgs.putInt("view_id", R.id.showDatePickerButton);
+        dateArgs.putInt("idDTCS", 0);
         newDateFragment.setArguments(dateArgs);
         newDateFragment.show(getSupportFragmentManager(), "datePicker");
     }
 
     public void showTimePickerDialog() {
         Bundle timeArgs = new Bundle();
-        timeArgs.putInt("hour", DateTimeCurrentState.hour);
-        timeArgs.putInt("minute", DateTimeCurrentState.minute);
+        timeArgs.putInt("hour", DateTimeCurrentState.hour[0]);
+        timeArgs.putInt("minute", DateTimeCurrentState.minute[0]);
         timeArgs.putInt("view_id", R.id.showTimePickerButton);
+        timeArgs.putInt("idDTCS", 0);
         newTimeFragment.setArguments(timeArgs);
         newTimeFragment.show(getSupportFragmentManager(), "timePicker");
     }
@@ -176,13 +178,13 @@ public class HLAWidgetConfigureActivity extends FragmentActivity implements View
                 EditText eventEditText = (EditText) findViewById(R.id.eventEditText);
 
                 // Save text and date into event object
-                int month = DateTimeCurrentState.month + 1;
+                int month = DateTimeCurrentState.month[0] + 1;
                 event.event = eventEditText.getText().toString();
-                event.datetime = DateTimeCurrentState.year + "-" +
+                event.datetime = DateTimeCurrentState.year[0] + "-" +
                                 month + "-" +
-                                DateTimeCurrentState.day + " " +
-                                DateTimeCurrentState.hour + ":" +
-                                DateTimeCurrentState.minute;
+                                DateTimeCurrentState.day[0] + " " +
+                                DateTimeCurrentState.hour[0] + ":" +
+                                DateTimeCurrentState.minute[0];
                 database.saveEvent(context, event, mAppWidgetId);
 
                 // It is the responsibility of the configuration activity to update the app widget

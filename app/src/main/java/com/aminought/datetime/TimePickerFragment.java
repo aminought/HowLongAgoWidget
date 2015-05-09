@@ -15,6 +15,7 @@ public class TimePickerFragment extends DialogFragment
         implements TimePickerDialog.OnTimeSetListener {
 
     private int vId;
+    private int idDTCS;
 
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
@@ -24,18 +25,19 @@ public class TimePickerFragment extends DialogFragment
         int hour = args.getInt("hour");
         int minute = args.getInt("minute");
         vId = args.getInt("view_id");
+        idDTCS = args.getInt("idDTCS");
 
         // Create a new instance of TimePickerDialog and return it
         return new TimePickerDialog(getActivity(), this, hour, minute, true);
     }
 
     public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
-        DateTimeCurrentState.hour = hourOfDay;
-        DateTimeCurrentState.minute = minute;
+        DateTimeCurrentState.hour[idDTCS] = hourOfDay;
+        DateTimeCurrentState.minute[idDTCS] = minute;
 
         TextView showTimePickerButton = (TextView) getActivity().findViewById(vId);
-        Calendar timeCal = new GregorianCalendar(0, 0, 0, DateTimeCurrentState.hour,
-                                                 DateTimeCurrentState.minute);
+        Calendar timeCal = new GregorianCalendar(0, 0, 0, DateTimeCurrentState.hour[idDTCS],
+                                                 DateTimeCurrentState.minute[idDTCS]);
         SimpleDateFormat timeFormat = new SimpleDateFormat("HH:mm");
         showTimePickerButton.setText(timeFormat.format(timeCal.getTime()));
     }
@@ -43,8 +45,9 @@ public class TimePickerFragment extends DialogFragment
     @Override
     public void setArguments(Bundle args) {
         super.setArguments(args);
-        DateTimeCurrentState.hour = args.getInt("hour");
-        DateTimeCurrentState.minute = args.getInt("minute");
+        DateTimeCurrentState.hour[idDTCS] = args.getInt("hour");
+        DateTimeCurrentState.minute[idDTCS] = args.getInt("minute");
         vId = args.getInt("view_id");
+        idDTCS = args.getInt("idDTCS");
     }
 }

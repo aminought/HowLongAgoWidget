@@ -11,6 +11,7 @@ import android.widget.TextView;
 
 import com.aminought.datetime.DatePickerFragment;
 import com.aminought.datetime.DateTime;
+import com.aminought.datetime.DateTimeCurrentState;
 import com.aminought.datetime.TimePickerFragment;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
@@ -53,15 +54,40 @@ public class HLAActivity extends FragmentActivity implements View.OnClickListene
         Typeface font = Typeface.createFromAsset(getAssets(), "BuxtonSketch.ttf");
         titleActivityTextView.setTypeface(font);
 
-        //Set current date
-        //Possibly, I will fix that
-        Date now_date = new Date();
+        // Set last using date
+        // Working even after closing application
+        // Possibly, I will fix that
+        Calendar cal1 = new GregorianCalendar();
+        Calendar cal2 = new GregorianCalendar();
+        if(!(DateTimeCurrentState.year[1]==0 && DateTimeCurrentState.month[1]==0 &&
+             DateTimeCurrentState.day[1]==0 && DateTimeCurrentState.hour[1]==0 &&
+             DateTimeCurrentState.minute[1]==0 && DateTimeCurrentState.year[2]==0 &&
+             DateTimeCurrentState.month[2]==0 && DateTimeCurrentState.day[2]==0 &&
+             DateTimeCurrentState.hour[2]==0 && DateTimeCurrentState.minute[2]==0)) {
+            cal1.set(DateTimeCurrentState.year[1], DateTimeCurrentState.month[1],
+                    DateTimeCurrentState.day[1], DateTimeCurrentState.hour[1],
+                    DateTimeCurrentState.minute[1]);
+            cal2.set(DateTimeCurrentState.year[2], DateTimeCurrentState.month[2],
+                    DateTimeCurrentState.day[2], DateTimeCurrentState.hour[2],
+                    DateTimeCurrentState.minute[2]);
+        } else {
+            DateTimeCurrentState.year[1] = cal1.get(Calendar.YEAR);
+            DateTimeCurrentState.month[1] = cal1.get(Calendar.MONTH);
+            DateTimeCurrentState.day[1] = cal1.get(Calendar.DAY_OF_MONTH);
+            DateTimeCurrentState.hour[1] = cal1.get(Calendar.HOUR_OF_DAY);
+            DateTimeCurrentState.minute[1] = cal1.get(Calendar.MINUTE);
+            DateTimeCurrentState.year[2] = cal2.get(Calendar.YEAR);
+            DateTimeCurrentState.month[2] = cal2.get(Calendar.MONTH);
+            DateTimeCurrentState.day[2] = cal2.get(Calendar.DAY_OF_MONTH);
+            DateTimeCurrentState.hour[2] = cal2.get(Calendar.HOUR_OF_DAY);
+            DateTimeCurrentState.minute[2] = cal2.get(Calendar.MINUTE);
+        }
         SimpleDateFormat dateFormat = new SimpleDateFormat("dd.MM.yyyy");
         SimpleDateFormat timeFormat = new SimpleDateFormat("HH:mm");
-        showDatePicker1ActivityButton.setText(dateFormat.format(now_date));
-        showTimePicker1ActivityButton.setText(timeFormat.format(now_date));
-        showDatePicker2ActivityButton.setText(dateFormat.format(now_date));
-        showTimePicker2ActivityButton.setText(timeFormat.format(now_date));
+        showDatePicker1ActivityButton.setText(dateFormat.format(cal1.getTime()));
+        showTimePicker1ActivityButton.setText(timeFormat.format(cal1.getTime()));
+        showDatePicker2ActivityButton.setText(dateFormat.format(cal2.getTime()));
+        showTimePicker2ActivityButton.setText(timeFormat.format(cal2.getTime()));
 
         differenceTextView.setText("");
 
@@ -71,7 +97,7 @@ public class HLAActivity extends FragmentActivity implements View.OnClickListene
         adView.loadAd(adRequest);
     }
 
-    public void showDatePickerDialog(int vId) {
+    public void showDatePickerDialog(int vId, int idDTCS) {
         Bundle dateArgs = new Bundle();
 
         // Set time in date picker depending of time on text view
@@ -92,11 +118,12 @@ public class HLAActivity extends FragmentActivity implements View.OnClickListene
         dateArgs.putInt("month", cal.get(Calendar.MONTH));
         dateArgs.putInt("day", cal.get(Calendar.DAY_OF_MONTH));
         dateArgs.putInt("view_id", vId);
+        dateArgs.putInt("idDTCS", idDTCS);
         newDateFragment.setArguments(dateArgs);
         newDateFragment.show(getSupportFragmentManager(), "datePicker");
     }
 
-    public void showTimePickerDialog(int vId) {
+    public void showTimePickerDialog(int vId, int idDTCS) {
         Bundle timeArgs = new Bundle();
 
         // Set time in date picker depending of time on text view
@@ -116,6 +143,7 @@ public class HLAActivity extends FragmentActivity implements View.OnClickListene
         timeArgs.putInt("hour", cal.get(Calendar.HOUR_OF_DAY));
         timeArgs.putInt("minute", cal.get(Calendar.MINUTE));
         timeArgs.putInt("view_id", vId);
+        timeArgs.putInt("idDTCS", idDTCS);
         newTimeFragment.setArguments(timeArgs);
         newTimeFragment.show(getSupportFragmentManager(), "timePicker");
     }
@@ -146,16 +174,16 @@ public class HLAActivity extends FragmentActivity implements View.OnClickListene
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.showDatePicker1ActivityButton:
-                showDatePickerDialog(R.id.showDatePicker1ActivityButton);
+                showDatePickerDialog(R.id.showDatePicker1ActivityButton, 1);
                 break;
             case R.id.showDatePicker2ActivityButton:
-                showDatePickerDialog(R.id.showDatePicker2ActivityButton);
+                showDatePickerDialog(R.id.showDatePicker2ActivityButton, 2);
                 break;
             case R.id.showTimePicker1ActivityButton:
-                showTimePickerDialog(R.id.showTimePicker1ActivityButton);
+                showTimePickerDialog(R.id.showTimePicker1ActivityButton, 1);
                 break;
             case R.id.showTimePicker2ActivityButton:
-                showTimePickerDialog(R.id.showTimePicker2ActivityButton);
+                showTimePickerDialog(R.id.showTimePicker2ActivityButton, 2);
                 break;
             case R.id.computeDiffButton:
                 computeDifference();

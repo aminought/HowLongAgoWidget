@@ -15,6 +15,7 @@ public class DatePickerFragment extends DialogFragment
         implements DatePickerDialog.OnDateSetListener {
 
     private int vId;
+    private int idDTCS;
 
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
@@ -25,20 +26,21 @@ public class DatePickerFragment extends DialogFragment
         int month = args.getInt("month");
         int day = args.getInt("day");
         vId = args.getInt("view_id");
+        idDTCS = args.getInt("idDTCS");
 
         // Create a new instance of DatePickerDialog and return it
         return new DatePickerDialog(getActivity(), this, year, month, day);
     }
 
     public void onDateSet(DatePicker view, int year, int month, int day) {
-        DateTimeCurrentState.year = year;
-        DateTimeCurrentState.month = month;
-        DateTimeCurrentState.day = day;
+        DateTimeCurrentState.year[idDTCS] = year;
+        DateTimeCurrentState.month[idDTCS] = month;
+        DateTimeCurrentState.day[idDTCS] = day;
 
         TextView showDatePickerButton = (TextView) getActivity().findViewById(vId);
-        Calendar dateCal = new GregorianCalendar(DateTimeCurrentState.year,
-                                                 DateTimeCurrentState.month,
-                                                 DateTimeCurrentState.day);
+        Calendar dateCal = new GregorianCalendar(DateTimeCurrentState.year[idDTCS],
+                                                 DateTimeCurrentState.month[idDTCS],
+                                                 DateTimeCurrentState.day[idDTCS]);
         SimpleDateFormat dateFormat = new SimpleDateFormat("dd.MM.yyyy");
         showDatePickerButton.setText(dateFormat.format(dateCal.getTime()));
     }
@@ -46,9 +48,10 @@ public class DatePickerFragment extends DialogFragment
     @Override
     public void setArguments(Bundle args) {
         super.setArguments(args);
-        DateTimeCurrentState.year = args.getInt("year");
-        DateTimeCurrentState.month = args.getInt("month");
-        DateTimeCurrentState.day = args.getInt("day");
+        DateTimeCurrentState.year[idDTCS] = args.getInt("year");
+        DateTimeCurrentState.month[idDTCS] = args.getInt("month");
+        DateTimeCurrentState.day[idDTCS] = args.getInt("day");
         vId = args.getInt("view_id");
+        idDTCS = args.getInt("idDTCS");
     }
 }
