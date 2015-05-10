@@ -41,7 +41,7 @@ public class HLAWidget extends AppWidgetProvider {
                                 int appWidgetId) {
         // Load data from preferences
         Event event = HLAWidgetConfigureActivity.database.loadEvent(context, appWidgetId);
-        String full_text = event.event + "<br>";
+        String full_text = event.text + "<br>";
         String dt = event.datetime;
         String image = event.image;
 

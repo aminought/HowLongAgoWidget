@@ -14,33 +14,32 @@ import java.util.GregorianCalendar;
 public class DatePickerFragment extends DialogFragment
         implements DatePickerDialog.OnDateSetListener {
 
-    private int vId;
-    private int idDTCS;
+    private int vId, year, month, day;
 
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
-        // Use the current date as the default date in the picker
         Bundle args = this.getArguments();
-
-        int year = args.getInt("year");
-        int month = args.getInt("month");
-        int day = args.getInt("day");
+        int tmpYear = args.getInt("year");
+        int tmpMonth = args.getInt("month");
+        int tmpDay = args.getInt("day");
         vId = args.getInt("view_id");
-        idDTCS = args.getInt("idDTCS");
+
+        final Calendar c = Calendar.getInstance();
+        year = tmpYear==-1 ? c.get(Calendar.YEAR) : tmpYear;
+        month = tmpMonth==-1 ? c.get(Calendar.MONTH) : tmpMonth;
+        day = tmpDay==-1 ? c.get(Calendar.DAY_OF_MONTH) : tmpDay;
 
         // Create a new instance of DatePickerDialog and return it
         return new DatePickerDialog(getActivity(), this, year, month, day);
     }
 
     public void onDateSet(DatePicker view, int year, int month, int day) {
-        DateTimeCurrentState.year[idDTCS] = year;
-        DateTimeCurrentState.month[idDTCS] = month;
-        DateTimeCurrentState.day[idDTCS] = day;
-
         TextView showDatePickerButton = (TextView) getActivity().findViewById(vId);
-        Calendar dateCal = new GregorianCalendar(DateTimeCurrentState.year[idDTCS],
-                                                 DateTimeCurrentState.month[idDTCS],
-                                                 DateTimeCurrentState.day[idDTCS]);
+        Bundle args = getArguments();
+        args.putInt("year", year);
+        args.putInt("month", month);
+        args.putInt("day", day);
+        Calendar dateCal = new GregorianCalendar(year, month, day);
         SimpleDateFormat dateFormat = new SimpleDateFormat("dd.MM.yyyy");
         showDatePickerButton.setText(dateFormat.format(dateCal.getTime()));
     }
@@ -48,10 +47,9 @@ public class DatePickerFragment extends DialogFragment
     @Override
     public void setArguments(Bundle args) {
         super.setArguments(args);
-        DateTimeCurrentState.year[idDTCS] = args.getInt("year");
-        DateTimeCurrentState.month[idDTCS] = args.getInt("month");
-        DateTimeCurrentState.day[idDTCS] = args.getInt("day");
+        year = args.getInt("year");
+        month = args.getInt("month");
+        day = args.getInt("day");
         vId = args.getInt("view_id");
-        idDTCS = args.getInt("idDTCS");
     }
 }

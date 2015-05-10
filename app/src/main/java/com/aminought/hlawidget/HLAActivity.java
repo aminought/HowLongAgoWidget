@@ -11,7 +11,6 @@ import android.widget.TextView;
 
 import com.aminought.datetime.DatePickerFragment;
 import com.aminought.datetime.DateTime;
-import com.aminought.datetime.DateTimeCurrentState;
 import com.aminought.datetime.TimePickerFragment;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
@@ -24,8 +23,10 @@ import java.util.GregorianCalendar;
 
 
 public class HLAActivity extends FragmentActivity implements View.OnClickListener {
-    private DialogFragment newDateFragment = new DatePickerFragment();
-    private DialogFragment newTimeFragment = new TimePickerFragment();
+    private DialogFragment firstDateFragment;
+    private DialogFragment firstTimeFragment;
+    private DialogFragment secondDateFragment;
+    private DialogFragment secondTimeFragment;
     private TextView showDatePicker1ActivityButton;
     private TextView showTimePicker1ActivityButton;
     private TextView showDatePicker2ActivityButton;
@@ -36,6 +37,30 @@ public class HLAActivity extends FragmentActivity implements View.OnClickListene
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.hlaactivity);
+
+        firstDateFragment = new DatePickerFragment();
+        firstTimeFragment = new TimePickerFragment();
+        secondDateFragment = new DatePickerFragment();
+        secondTimeFragment = new TimePickerFragment();
+
+        Calendar cal = new GregorianCalendar();
+
+        // Set current date
+        Bundle date1Args = new Bundle();
+        date1Args.putInt("year", cal.get(Calendar.YEAR));
+        date1Args.putInt("month", cal.get(Calendar.MONTH));
+        date1Args.putInt("day", cal.get(Calendar.DAY_OF_MONTH));
+        firstDateFragment.setArguments(date1Args);
+        Bundle date2Args = (Bundle) date1Args.clone();
+        secondDateFragment.setArguments(date2Args);
+
+        // Set current time
+        Bundle time1Args = new Bundle();
+        time1Args.putInt("hour", cal.get(Calendar.HOUR_OF_DAY));
+        time1Args.putInt("minute", cal.get(Calendar.MINUTE));
+        firstTimeFragment.setArguments(time1Args);
+        Bundle time2Args = (Bundle) time1Args.clone();
+        secondTimeFragment.setArguments(time2Args);
 
         Button computeDifference = (Button) findViewById(R.id.computeDiffButton);
         computeDifference.setOnClickListener(this);
@@ -49,47 +74,20 @@ public class HLAActivity extends FragmentActivity implements View.OnClickListene
         showTimePicker2ActivityButton = (TextView) findViewById(R.id.showTimePicker2ActivityButton);
         showTimePicker2ActivityButton.setOnClickListener(this);
         differenceTextView = (TextView) findViewById(R.id.differenceTextView);
+        differenceTextView.setText("");
 
+        // Apply custom font for title
         TextView titleActivityTextView = (TextView) findViewById(R.id.titleActivityTextView);
         Typeface font = Typeface.createFromAsset(getAssets(), "BuxtonSketch.ttf");
         titleActivityTextView.setTypeface(font);
 
-        // Set last using date
-        // Working even after closing application
-        // Possibly, I will fix that
-        Calendar cal1 = new GregorianCalendar();
-        Calendar cal2 = new GregorianCalendar();
-        if(!(DateTimeCurrentState.year[1]==0 && DateTimeCurrentState.month[1]==0 &&
-             DateTimeCurrentState.day[1]==0 && DateTimeCurrentState.hour[1]==0 &&
-             DateTimeCurrentState.minute[1]==0 && DateTimeCurrentState.year[2]==0 &&
-             DateTimeCurrentState.month[2]==0 && DateTimeCurrentState.day[2]==0 &&
-             DateTimeCurrentState.hour[2]==0 && DateTimeCurrentState.minute[2]==0)) {
-            cal1.set(DateTimeCurrentState.year[1], DateTimeCurrentState.month[1],
-                    DateTimeCurrentState.day[1], DateTimeCurrentState.hour[1],
-                    DateTimeCurrentState.minute[1]);
-            cal2.set(DateTimeCurrentState.year[2], DateTimeCurrentState.month[2],
-                    DateTimeCurrentState.day[2], DateTimeCurrentState.hour[2],
-                    DateTimeCurrentState.minute[2]);
-        } else {
-            DateTimeCurrentState.year[1] = cal1.get(Calendar.YEAR);
-            DateTimeCurrentState.month[1] = cal1.get(Calendar.MONTH);
-            DateTimeCurrentState.day[1] = cal1.get(Calendar.DAY_OF_MONTH);
-            DateTimeCurrentState.hour[1] = cal1.get(Calendar.HOUR_OF_DAY);
-            DateTimeCurrentState.minute[1] = cal1.get(Calendar.MINUTE);
-            DateTimeCurrentState.year[2] = cal2.get(Calendar.YEAR);
-            DateTimeCurrentState.month[2] = cal2.get(Calendar.MONTH);
-            DateTimeCurrentState.day[2] = cal2.get(Calendar.DAY_OF_MONTH);
-            DateTimeCurrentState.hour[2] = cal2.get(Calendar.HOUR_OF_DAY);
-            DateTimeCurrentState.minute[2] = cal2.get(Calendar.MINUTE);
-        }
+        // Write current time into text views
         SimpleDateFormat dateFormat = new SimpleDateFormat("dd.MM.yyyy");
         SimpleDateFormat timeFormat = new SimpleDateFormat("HH:mm");
-        showDatePicker1ActivityButton.setText(dateFormat.format(cal1.getTime()));
-        showTimePicker1ActivityButton.setText(timeFormat.format(cal1.getTime()));
-        showDatePicker2ActivityButton.setText(dateFormat.format(cal2.getTime()));
-        showTimePicker2ActivityButton.setText(timeFormat.format(cal2.getTime()));
-
-        differenceTextView.setText("");
+        showDatePicker1ActivityButton.setText(dateFormat.format(cal.getTime()));
+        showTimePicker1ActivityButton.setText(timeFormat.format(cal.getTime()));
+        showDatePicker2ActivityButton.setText(dateFormat.format(cal.getTime()));
+        showTimePicker2ActivityButton.setText(timeFormat.format(cal.getTime()));
 
         // Add ads
         AdView adView = (AdView) findViewById(R.id.ActivityAdView);
@@ -97,55 +95,16 @@ public class HLAActivity extends FragmentActivity implements View.OnClickListene
         adView.loadAd(adRequest);
     }
 
-    public void showDatePickerDialog(int vId, int idDTCS) {
-        Bundle dateArgs = new Bundle();
-
-        // Set time in date picker depending of time on text view
-        TextView tv = (TextView) findViewById(vId);
-        String dateString = tv.getText().toString();
-        SimpleDateFormat dateFormat = new SimpleDateFormat("dd.MM.yyyy");
-        Date date = new Date();
-        try {
-            date = dateFormat.parse(dateString);
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
-        Calendar cal = new GregorianCalendar();
-        cal.setTime(date);
-
-        // Pass arguments into bundle
-        dateArgs.putInt("year", cal.get(Calendar.YEAR));
-        dateArgs.putInt("month", cal.get(Calendar.MONTH));
-        dateArgs.putInt("day", cal.get(Calendar.DAY_OF_MONTH));
-        dateArgs.putInt("view_id", vId);
-        dateArgs.putInt("idDTCS", idDTCS);
-        newDateFragment.setArguments(dateArgs);
-        newDateFragment.show(getSupportFragmentManager(), "datePicker");
+    public void showDatePickerDialog(DialogFragment d, int textViewId) {
+        Bundle dateArgs = d.getArguments();
+        dateArgs.putInt("view_id", textViewId);
+        d.show(getSupportFragmentManager(), "datePicker");
     }
 
-    public void showTimePickerDialog(int vId, int idDTCS) {
-        Bundle timeArgs = new Bundle();
-
-        // Set time in date picker depending of time on text view
-        TextView tv = (TextView) findViewById(vId);
-        String timeString = tv.getText().toString();
-        SimpleDateFormat timeFormat = new SimpleDateFormat("HH:mm");
-        Date date = new Date();
-        try {
-            date = timeFormat.parse(timeString);
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
-        Calendar cal = new GregorianCalendar();
-        cal.setTime(date);
-
-        // Pass arguments into bundle
-        timeArgs.putInt("hour", cal.get(Calendar.HOUR_OF_DAY));
-        timeArgs.putInt("minute", cal.get(Calendar.MINUTE));
-        timeArgs.putInt("view_id", vId);
-        timeArgs.putInt("idDTCS", idDTCS);
-        newTimeFragment.setArguments(timeArgs);
-        newTimeFragment.show(getSupportFragmentManager(), "timePicker");
+    public void showTimePickerDialog(DialogFragment d, int textViewId) {
+        Bundle timeArgs = d.getArguments();
+        timeArgs.putInt("view_id", textViewId);
+        d.show(getSupportFragmentManager(), "timePicker");
     }
 
     private void computeDifference() {
@@ -174,19 +133,69 @@ public class HLAActivity extends FragmentActivity implements View.OnClickListene
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.showDatePicker1ActivityButton:
-                showDatePickerDialog(R.id.showDatePicker1ActivityButton, 1);
+                showDatePickerDialog(firstDateFragment, R.id.showDatePicker1ActivityButton);
                 break;
             case R.id.showDatePicker2ActivityButton:
-                showDatePickerDialog(R.id.showDatePicker2ActivityButton, 2);
+                showDatePickerDialog(secondDateFragment, R.id.showDatePicker2ActivityButton);
                 break;
             case R.id.showTimePicker1ActivityButton:
-                showTimePickerDialog(R.id.showTimePicker1ActivityButton, 1);
+                showTimePickerDialog(firstTimeFragment, R.id.showTimePicker1ActivityButton);
                 break;
             case R.id.showTimePicker2ActivityButton:
-                showTimePickerDialog(R.id.showTimePicker2ActivityButton, 2);
+                showTimePickerDialog(secondTimeFragment, R.id.showTimePicker2ActivityButton);
                 break;
             case R.id.computeDiffButton:
                 computeDifference();
         }
+    }
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        Bundle firstDateBundle = firstDateFragment.getArguments();
+        Bundle firstTimeBundle = firstTimeFragment.getArguments();
+        Bundle secondDateBundle = secondDateFragment.getArguments();
+        Bundle secondTimeBundle = secondTimeFragment.getArguments();
+        outState.putInt("first_year", firstDateBundle.getInt("year"));
+        outState.putInt("first_month", firstDateBundle.getInt("month"));
+        outState.putInt("first_day", firstDateBundle.getInt("day"));
+        outState.putInt("first_hour", firstTimeBundle.getInt("hour"));
+        outState.putInt("first_minute", firstTimeBundle.getInt("minute"));
+        outState.putInt("second_year", secondDateBundle.getInt("year"));
+        outState.putInt("second_month", secondDateBundle.getInt("month"));
+        outState.putInt("second_day", secondDateBundle.getInt("day"));
+        outState.putInt("second_hour", secondTimeBundle.getInt("hour"));
+        outState.putInt("second_minute", secondTimeBundle.getInt("minute"));
+        outState.putString("date1String", showDatePicker1ActivityButton.getText().toString());
+        outState.putString("date2String", showDatePicker2ActivityButton.getText().toString());
+        outState.putString("time1String", showTimePicker1ActivityButton.getText().toString());
+        outState.putString("time2String", showTimePicker2ActivityButton.getText().toString());
+    }
+
+    @Override
+    protected void onRestoreInstanceState(Bundle savedInstanceState) {
+        super.onRestoreInstanceState(savedInstanceState);
+        Bundle firstDateBundle = new Bundle();
+        Bundle firstTimeBundle = new Bundle();
+        Bundle secondDateBundle = new Bundle();
+        Bundle secondTimeBundle = new Bundle();
+        firstDateBundle.putInt("year", savedInstanceState.getInt("first_year"));
+        firstDateBundle.putInt("month", savedInstanceState.getInt("first_month"));
+        firstDateBundle.putInt("day", savedInstanceState.getInt("first_day"));
+        firstTimeBundle.putInt("hour", savedInstanceState.getInt("first_hour"));
+        firstTimeBundle.putInt("minute", savedInstanceState.getInt("first_minute"));
+        secondDateBundle.putInt("year", savedInstanceState.getInt("second_year"));
+        secondDateBundle.putInt("month", savedInstanceState.getInt("second_month"));
+        secondDateBundle.putInt("day", savedInstanceState.getInt("second_day"));
+        secondTimeBundle.putInt("hour", savedInstanceState.getInt("second_hour"));
+        secondTimeBundle.putInt("minute", savedInstanceState.getInt("second_minute"));
+        firstDateFragment.setArguments(firstDateBundle);
+        secondDateFragment.setArguments(secondDateBundle);
+        firstTimeFragment.setArguments(firstTimeBundle);
+        secondTimeFragment.setArguments(secondTimeBundle);
+        showDatePicker1ActivityButton.setText(savedInstanceState.getString("date1String"));
+        showDatePicker2ActivityButton.setText(savedInstanceState.getString("date2String"));
+        showTimePicker1ActivityButton.setText(savedInstanceState.getString("time1String"));
+        showTimePicker2ActivityButton.setText(savedInstanceState.getString("time2String"));
     }
 }

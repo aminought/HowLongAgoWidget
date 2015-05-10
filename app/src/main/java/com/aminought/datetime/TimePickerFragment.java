@@ -14,30 +14,29 @@ import java.util.GregorianCalendar;
 public class TimePickerFragment extends DialogFragment
         implements TimePickerDialog.OnTimeSetListener {
 
-    private int vId;
-    private int idDTCS;
+    private int vId, hour, minute;
 
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         // Use the current time as the default values for the picker
         Bundle args = this.getArguments();
-
-        int hour = args.getInt("hour");
-        int minute = args.getInt("minute");
+        int tmpHour = args.getInt("hour");
+        int tmpMinute = args.getInt("minute");
         vId = args.getInt("view_id");
-        idDTCS = args.getInt("idDTCS");
 
+        final Calendar c = Calendar.getInstance();
+        hour = tmpHour==-1 ? c.get(Calendar.HOUR_OF_DAY) : tmpHour;
+        minute = tmpMinute==-1 ? c.get(Calendar.MONTH) : tmpMinute;
         // Create a new instance of TimePickerDialog and return it
         return new TimePickerDialog(getActivity(), this, hour, minute, true);
     }
 
     public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
-        DateTimeCurrentState.hour[idDTCS] = hourOfDay;
-        DateTimeCurrentState.minute[idDTCS] = minute;
-
         TextView showTimePickerButton = (TextView) getActivity().findViewById(vId);
-        Calendar timeCal = new GregorianCalendar(0, 0, 0, DateTimeCurrentState.hour[idDTCS],
-                                                 DateTimeCurrentState.minute[idDTCS]);
+        Bundle args = getArguments();
+        args.putInt("hour", hourOfDay);
+        args.putInt("minute", minute);
+        Calendar timeCal = new GregorianCalendar(0, 0, 0, hourOfDay, minute);
         SimpleDateFormat timeFormat = new SimpleDateFormat("HH:mm");
         showTimePickerButton.setText(timeFormat.format(timeCal.getTime()));
     }
@@ -45,9 +44,8 @@ public class TimePickerFragment extends DialogFragment
     @Override
     public void setArguments(Bundle args) {
         super.setArguments(args);
-        DateTimeCurrentState.hour[idDTCS] = args.getInt("hour");
-        DateTimeCurrentState.minute[idDTCS] = args.getInt("minute");
+        hour = args.getInt("hour");
+        minute = args.getInt("minute");
         vId = args.getInt("view_id");
-        idDTCS = args.getInt("idDTCS");
     }
 }
