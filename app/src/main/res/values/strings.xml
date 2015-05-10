@@ -1,7 +1,7 @@
 <resources>
     <string name="app_name">How Long Ago Widget</string>
     <string name="loading">Loading…</string>
-    <string name="hello_sun">HLA Widget</string>
+    <string name="title">HLA Widget</string>
     <string name="what">What event do you want to remember?</string>
     <string name="when">When it happened?</string>
     <string name="date">Date:</string>
@@ -12,7 +12,10 @@
     <string name="choose_image">Choose image</string>
     <string name="resetImage">Reset image</string>
     <string name="title_activity_hla">HLAActivity</string>
-
+    <string name="first_date">First date:</string>
+    <string name="second_date">Second date:</string>
+    <string name="compute_difference">Compute the difference</string>
+    <string name="sample_result">1 year\n1 month\n1 day\n1 hour\n1 minute</string>
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
 </resources>

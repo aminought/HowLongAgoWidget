@@ -1,23 +1,34 @@
-<AbsoluteLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:ads="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:padding="5dp"
     android:background="#4c4d51"
-    android:paddingBottom="@dimen/activity_vertical_margin"
-    android:paddingLeft="@dimen/activity_horizontal_margin"
-    android:paddingRight="@dimen/activity_horizontal_margin"
-    android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="com.aminought.hlawidget.HLAActivity">
 
+    <com.google.android.gms.ads.AdView
+        android:id="@+id/ActivityAdView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_alignParentBottom="true"
+        ads:adSize="BANNER"
+        ads:adUnitId="ca-app-pub-7011780208884328/5697220494" />
+
     <ScrollView
+        xmlns:ads="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
         android:id="@+id/scrollView2"
+        android:layout_alignParentTop="true"
+        android:layout_above="@id/ActivityAdView"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="match_parent">
 
         <LinearLayout
             android:layout_width="fill_parent"
-            android:layout_height="fill_parent"
+            android:layout_height="wrap_content"
             android:orientation="vertical">
 
             <TextView
@@ -26,7 +37,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
                 android:layout_marginBottom="20dp"
-                android:text="HLA Widget"
+                android:text="@string/title"
                 android:textAppearance="?android:attr/textAppearanceLarge"
                 android:textColor="#ffff00"
                 android:textSize="40dp" />
@@ -36,7 +47,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="5dp"
-                android:text="First date:"
+                android:text="@string/first_date"
                 android:textAppearance="?android:attr/textAppearanceMedium"
                 android:textColor="#ffffff" />
 
@@ -51,7 +62,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginRight="5dp"
-                    android:text="Date:"
+                    android:text="@string/date"
                     android:textAppearance="?android:attr/textAppearanceMedium"
                     android:textColor="#ffff00" />
 
@@ -60,7 +71,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginRight="7dp"
-                    android:text="14.12.1994"
+                    android:text="@string/sample_date"
                     android:textAppearance="?android:attr/textAppearanceLarge"
                     android:textColor="#ffffff"
                     android:textStyle="bold" />
@@ -70,7 +81,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginRight="5dp"
-                    android:text="Time:"
+                    android:text="@string/time"
                     android:textAppearance="?android:attr/textAppearanceMedium"
                     android:textColor="#ffff00" />
 
@@ -78,7 +89,7 @@
                     android:id="@+id/showTimePicker1ActivityButton"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="00:00"
+                    android:text="@string/sample_time"
                     android:textAppearance="?android:attr/textAppearanceLarge"
                     android:textColor="#ffffff"
                     android:textStyle="bold" />
@@ -89,7 +100,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="5dp"
-                android:text="Second date:"
+                android:text="@string/second_date"
                 android:textAppearance="?android:attr/textAppearanceMedium"
                 android:textColor="#ffffff" />
 
@@ -103,7 +114,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginRight="5dp"
-                    android:text="Date:"
+                    android:text="@string/date"
                     android:textAppearance="?android:attr/textAppearanceMedium"
                     android:textColor="#ffff00" />
 
@@ -112,7 +123,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginRight="7dp"
-                    android:text="14.12.1994"
+                    android:text="@string/sample_date"
                     android:textAppearance="?android:attr/textAppearanceLarge"
                     android:textColor="#ffffff"
                     android:textStyle="bold" />
@@ -122,7 +133,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginRight="5dp"
-                    android:text="Time:"
+                    android:text="@string/time"
                     android:textAppearance="?android:attr/textAppearanceMedium"
                     android:textColor="#ffff00" />
 
@@ -131,7 +142,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginRight="7dp"
-                    android:text="00:00"
+                    android:text="@string/sample_time"
                     android:textAppearance="?android:attr/textAppearanceLarge"
                     android:textColor="#ffffff"
                     android:textStyle="bold" />
@@ -146,7 +157,7 @@
                 android:layout_marginTop="20dp"
                 android:background="#7b7b7b"
                 android:padding="5dp"
-                android:text="Compute the difference"
+                android:text="@string/compute_difference"
                 android:textColor="#ffff00" />
 
             <TextView
@@ -154,24 +165,9 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:text="1 year\n1 month\n1 day\n1 hour\n1 minute"
+                android:text="@string/sample_result"
                 android:textSize="30dp" />
         </LinearLayout>
     </ScrollView>
 
-    <LinearLayout
-        android:orientation="vertical"
-        android:layout_width="fill_parent"
-        android:gravity="bottom"
-        android:layout_height="fill_parent">
-
-        <com.google.android.gms.ads.AdView
-            android:id="@+id/ActivityAdView"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            ads:adSize="BANNER"
-            ads:adUnitId="ca-app-pub-7011780208884328/5697220494" />
-    </LinearLayout>
-
-</AbsoluteLayout>
+</RelativeLayout>
