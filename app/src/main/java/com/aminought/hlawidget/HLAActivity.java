@@ -32,6 +32,7 @@ public class HLAActivity extends FragmentActivity implements View.OnClickListene
     private TextView showDatePicker2ActivityButton;
     private TextView showTimePicker2ActivityButton;
     private TextView differenceTextView;
+    private DateTime diffTime;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -64,6 +65,7 @@ public class HLAActivity extends FragmentActivity implements View.OnClickListene
 
         Button computeDifference = (Button) findViewById(R.id.computeDiffButton);
         computeDifference.setOnClickListener(this);
+        diffTime = new DateTime(0,0,0,0,0);
 
         showDatePicker1ActivityButton = (TextView) findViewById(R.id.showDatePicker1ActivityButton);
         showDatePicker1ActivityButton.setOnClickListener(this);
@@ -125,8 +127,8 @@ public class HLAActivity extends FragmentActivity implements View.OnClickListene
         cal2.setTime(d2);
         DateTime dt1 = new DateTime(cal1);
         DateTime dt2 = new DateTime(cal2);
-        DateTime dt3 = dt1.diff(dt2);
-        differenceTextView.setText(Html.fromHtml(dt3.toString("#ffff00", "#ffffff", true)));
+        diffTime = dt1.diff(dt2);
+        differenceTextView.setText(Html.fromHtml(diffTime.toString("#ffff00", "#ffffff", true)));
     }
 
     @Override
@@ -170,6 +172,7 @@ public class HLAActivity extends FragmentActivity implements View.OnClickListene
         outState.putString("date2String", showDatePicker2ActivityButton.getText().toString());
         outState.putString("time1String", showTimePicker1ActivityButton.getText().toString());
         outState.putString("time2String", showTimePicker2ActivityButton.getText().toString());
+        outState.putString("diffTimeString", diffTime.toString("#ffff00", "#ffffff", true));
     }
 
     @Override
@@ -197,5 +200,6 @@ public class HLAActivity extends FragmentActivity implements View.OnClickListene
         showDatePicker2ActivityButton.setText(savedInstanceState.getString("date2String"));
         showTimePicker1ActivityButton.setText(savedInstanceState.getString("time1String"));
         showTimePicker2ActivityButton.setText(savedInstanceState.getString("time2String"));
+        differenceTextView.setText(Html.fromHtml(savedInstanceState.getString("diffTimeString")));
     }
 }
