@@ -106,7 +106,6 @@ public class HLAWidgetConfigureActivity extends FragmentActivity implements View
         configImageView = (ImageView) findViewById(R.id.configImageView);
         configImageView.setOnClickListener(this);
         if(!event.image.equals("")) {
-//            configImageView.setImageBitmap(BitmapFactory.decodeFile(event.image));
             Bitmap bitmap = com.aminought.bitmap.Bitmap.decodeSampledBitmapFromResource(event.image, 100, 100);
             configImageView.setImageBitmap(bitmap);
         } else {
@@ -220,7 +219,6 @@ public class HLAWidgetConfigureActivity extends FragmentActivity implements View
             switch(requestCode) {
                 case PICK_IMAGE:
                     Uri image = data.getData();
-                    configImageView.setImageURI(image);
                     String[] filePathColumn = {MediaStore.Images.Media.DATA};
                     Cursor cursor = getContentResolver().query(image, filePathColumn, null, null, null);
                     cursor.moveToFirst();
@@ -228,6 +226,8 @@ public class HLAWidgetConfigureActivity extends FragmentActivity implements View
                     String imageDecodableString = cursor.getString(columnIndex);
                     cursor.close();
                     event.image = imageDecodableString;
+                    Bitmap bitmap = com.aminought.bitmap.Bitmap.decodeSampledBitmapFromResource(event.image, 100, 100);
+                    configImageView.setImageBitmap(bitmap);
                     break;
             }
         }

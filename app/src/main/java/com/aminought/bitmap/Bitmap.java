@@ -1,6 +1,10 @@
 package com.aminought.bitmap;
 
 import android.graphics.BitmapFactory;
+import android.graphics.Matrix;
+import android.media.ExifInterface;
+
+import java.io.IOException;
 
 public class Bitmap {
     public static int calculateInSampleSize(BitmapFactory.Options options, int reqWidth, int reqHeight) {
@@ -21,6 +25,16 @@ public class Bitmap {
     }
 
     public static android.graphics.Bitmap decodeSampledBitmapFromResource(String image, int reqWidth, int reqHeight) {
+        int rotationInDegrees = 0;
+        try {
+            ExifInterface exif = new ExifInterface(image);
+            int rotation = exif.getAttributeInt(ExifInterface.TAG_ORIENTATION, ExifInterface.ORIENTATION_NORMAL);
+            if(rotation == ExifInterface.ORIENTATION_ROTATE_90) rotationInDegrees = 90;
+            if(rotation == ExifInterface.ORIENTATION_ROTATE_180) rotationInDegrees = 180;
+            if(rotation == ExifInterface.ORIENTATION_ROTATE_270) rotationInDegrees = 270;
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
         // First decode with inJustDecodeBounds=true to check dimensions
         final BitmapFactory.Options options = new BitmapFactory.Options();
         options.inJustDecodeBounds = true;
@@ -29,6 +43,9 @@ public class Bitmap {
         options.inSampleSize = calculateInSampleSize(options, reqWidth, reqHeight);
         // Decode bitmap with inSampleSize set
         options.inJustDecodeBounds = false;
-        return BitmapFactory.decodeFile(image, options);
+        android.graphics.Bitmap bitmap =  BitmapFactory.decodeFile(image, options);
+        Matrix matrix = new Matrix();
+        matrix.postRotate(rotationInDegrees);
+        return android.graphics.Bitmap.createBitmap(bitmap, 0, 0, bitmap.getWidth(), bitmap.getHeight(), matrix, true);
     }
 }
