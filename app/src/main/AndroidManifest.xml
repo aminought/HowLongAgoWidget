@@ -10,6 +10,7 @@
         android:allowBackup="true"
         android:icon="@mipmap/icon"
         android:label="@string/app_name"
+        android:name="com.aminought.analytics.GoogleAnalyticsApp"
         android:theme="@style/AppTheme" >
         <receiver android:name=".HLAWidget" >
             <intent-filter>
@@ -20,6 +21,23 @@
                 android:name="android.appwidget.provider"
                 android:resource="@xml/hlawidget_info" />
         </receiver>
+
+        <receiver android:name="com.google.android.gms.analytics.AnalyticsReceiver"
+            android:enabled="true">
+            <intent-filter>
+                <action android:name="com.google.android.gms.analytics.ANALYTICS_DISPATCH" />
+            </intent-filter>
+        </receiver>
+        <service android:name="com.google.android.gms.analytics.AnalyticsService"
+            android:enabled="true"
+            android:exported="false"/>
+        <receiver android:name="com.google.android.gms.analytics.CampaignTrackingReceiver"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="com.android.vending.INSTALL_REFERRER" />
+            </intent-filter>
+        </receiver>
+        <service android:name="com.google.android.gms.analytics.CampaignTrackingService" />
 
         <activity android:name=".HLAWidgetConfigureActivity" >
             <intent-filter>
@@ -39,6 +57,8 @@
             android:configChanges="keyboard|keyboardHidden|orientation|screenLayout|uiMode|screenSize|smallestScreenSize"/>
         <meta-data android:name="com.google.android.gms.version"
             android:value="@integer/google_play_services_version" />
+        <meta-data android:name="com.google.android.gms.analytics.globalConfigResourse"
+            android:resource="@xml/global_tracker" />
     </application>
 
 </manifest>

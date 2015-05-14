@@ -17,10 +17,12 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.aminought.analytics.GoogleAnalyticsApp;
 import com.aminought.datetime.DatePickerFragment;
 import com.aminought.datetime.TimePickerFragment;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
+import com.google.android.gms.analytics.GoogleAnalytics;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -51,6 +53,8 @@ public class HLAWidgetConfigureActivity extends FragmentActivity implements View
 
         setResult(RESULT_CANCELED);
         setContentView(R.layout.hlawidget_configure);
+
+        ((GoogleAnalyticsApp) getApplication()).getTracker(GoogleAnalyticsApp.TrackerName.APP_TRACKER);
 
         dateFragment = new DatePickerFragment();
         timeFragment = new TimePickerFragment();
@@ -261,5 +265,17 @@ public class HLAWidgetConfigureActivity extends FragmentActivity implements View
         timeFragment.setArguments(timeArgs);
         showDatePickerButton.setText(savedInstanceState.getString("dateString"));
         showTimePickerButton.setText(savedInstanceState.getString("timeString"));
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        GoogleAnalytics.getInstance(this).reportActivityStart(this);
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        GoogleAnalytics.getInstance(this).reportActivityStop(this);
     }
 }

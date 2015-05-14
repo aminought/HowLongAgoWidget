@@ -2,6 +2,7 @@ package com.aminought.hlawidget;
 
 import android.graphics.Typeface;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.FragmentActivity;
 import android.text.Html;
@@ -9,11 +10,15 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
+import com.aminought.analytics.GoogleAnalyticsApp;
 import com.aminought.datetime.DatePickerFragment;
 import com.aminought.datetime.DateTime;
 import com.aminought.datetime.TimePickerFragment;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
+import com.google.android.gms.analytics.GoogleAnalytics;
+import com.google.android.gms.analytics.HitBuilders;
+import com.google.android.gms.analytics.Tracker;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -38,6 +43,8 @@ public class HLAActivity extends FragmentActivity implements View.OnClickListene
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.hlaactivity);
+
+        ((GoogleAnalyticsApp) getApplication()).getTracker(GoogleAnalyticsApp.TrackerName.APP_TRACKER);
 
         firstDateFragment = new DatePickerFragment();
         firstTimeFragment = new TimePickerFragment();
@@ -175,7 +182,7 @@ public class HLAActivity extends FragmentActivity implements View.OnClickListene
     }
 
     @Override
-    protected void onRestoreInstanceState(Bundle savedInstanceState) {
+    protected void onRestoreInstanceState(@NonNull Bundle savedInstanceState) {
         super.onRestoreInstanceState(savedInstanceState);
         Bundle firstDateBundle = new Bundle();
         Bundle firstTimeBundle = new Bundle();
@@ -200,5 +207,17 @@ public class HLAActivity extends FragmentActivity implements View.OnClickListene
         showTimePicker1ActivityButton.setText(savedInstanceState.getString("time1String"));
         showTimePicker2ActivityButton.setText(savedInstanceState.getString("time2String"));
         computeDifference();
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        GoogleAnalytics.getInstance(this).reportActivityStart(this);
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        GoogleAnalytics.getInstance(this).reportActivityStop(this);
     }
 }
