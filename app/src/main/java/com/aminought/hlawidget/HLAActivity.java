@@ -172,7 +172,6 @@ public class HLAActivity extends FragmentActivity implements View.OnClickListene
         outState.putString("date2String", showDatePicker2ActivityButton.getText().toString());
         outState.putString("time1String", showTimePicker1ActivityButton.getText().toString());
         outState.putString("time2String", showTimePicker2ActivityButton.getText().toString());
-        outState.putString("diffTimeString", diffTime.toString("#ffff00", "#ffffff", true));
     }
 
     @Override
@@ -200,6 +199,6 @@ public class HLAActivity extends FragmentActivity implements View.OnClickListene
         showDatePicker2ActivityButton.setText(savedInstanceState.getString("date2String"));
         showTimePicker1ActivityButton.setText(savedInstanceState.getString("time1String"));
         showTimePicker2ActivityButton.setText(savedInstanceState.getString("time2String"));
-        differenceTextView.setText(Html.fromHtml(savedInstanceState.getString("diffTimeString")));
+        computeDifference();
     }
 }
