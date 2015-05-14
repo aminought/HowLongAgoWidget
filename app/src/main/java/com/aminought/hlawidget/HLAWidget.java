@@ -7,11 +7,11 @@ import android.appwidget.AppWidgetProvider;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.BitmapFactory;
 import android.text.Html;
 import android.widget.RemoteViews;
 
 import com.aminought.datetime.DateTime;
+import com.aminought.bitmap.Bitmap;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -35,7 +35,6 @@ public class HLAWidget extends AppWidgetProvider {
             HLAWidgetConfigureActivity.database.deleteEvent(context, id);
         }
     }
-
 
     static void updateAppWidget(Context context, AppWidgetManager appWidgetManager,
                                 int appWidgetId) {
@@ -62,15 +61,15 @@ public class HLAWidget extends AppWidgetProvider {
         now_calendar.setTime(now_date);
 
         DateTime dtA = new DateTime(event_calendar.get(Calendar.YEAR),
-                                    event_calendar.get(Calendar.MONTH),
-                                    event_calendar.get(Calendar.DAY_OF_MONTH),
-                                    event_calendar.get(Calendar.HOUR_OF_DAY),
-                                    event_calendar.get(Calendar.MINUTE));
+                event_calendar.get(Calendar.MONTH),
+                event_calendar.get(Calendar.DAY_OF_MONTH),
+                event_calendar.get(Calendar.HOUR_OF_DAY),
+                event_calendar.get(Calendar.MINUTE));
         DateTime dtB = new DateTime(now_calendar.get(Calendar.YEAR),
-                                    now_calendar.get(Calendar.MONTH),
-                                    now_calendar.get(Calendar.DAY_OF_MONTH),
-                                    now_calendar.get(Calendar.HOUR_OF_DAY),
-                                    now_calendar.get(Calendar.MINUTE));
+                now_calendar.get(Calendar.MONTH),
+                now_calendar.get(Calendar.DAY_OF_MONTH),
+                now_calendar.get(Calendar.HOUR_OF_DAY),
+                now_calendar.get(Calendar.MINUTE));
         // Compute the difference
         DateTime dtNew = dtB.diff(dtA);
 
@@ -80,8 +79,9 @@ public class HLAWidget extends AppWidgetProvider {
         // Write difference in text view and set image in image view
         RemoteViews views = new RemoteViews(context.getPackageName(), R.layout.hlawidget);
         views.setTextViewText(R.id.mainTextView, Html.fromHtml(full_text));
-        if(!image.equals("")) {
-            views.setImageViewBitmap(R.id.imageView, BitmapFactory.decodeFile(image));
+        if (!image.equals("")) {
+            android.graphics.Bitmap bitmap = Bitmap.decodeSampledBitmapFromResource(image, 100, 100);
+            views.setImageViewBitmap(R.id.imageView, bitmap);
         } else {
             views.setImageViewResource(R.id.imageView, R.mipmap.icon);
         }
@@ -91,7 +91,7 @@ public class HLAWidget extends AppWidgetProvider {
         configIntent.setAction(AppWidgetManager.ACTION_APPWIDGET_CONFIGURE);
         configIntent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, appWidgetId);
         PendingIntent pendingIntent = PendingIntent.getActivity(context, appWidgetId,
-                                                                configIntent, 0);
+                configIntent, 0);
         views.setOnClickPendingIntent(R.id.mainLayout, pendingIntent);
 
         // Instruct the widget manager to update the widget
@@ -108,7 +108,7 @@ public class HLAWidget extends AppWidgetProvider {
         AlarmManager alarmManager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
         alarmManager.setRepeating(AlarmManager.RTC, System.currentTimeMillis(), 60000, pIntent);
         ComponentName thisAppWidget = new ComponentName(context.getPackageName(),
-                                                        getClass().getName());
+                getClass().getName());
         AppWidgetManager appWidgetManager = AppWidgetManager.getInstance(context);
         int ids[] = appWidgetManager.getAppWidgetIds(thisAppWidget);
         updateAll(context, appWidgetManager, ids);
@@ -136,20 +136,20 @@ public class HLAWidget extends AppWidgetProvider {
 
         if (intent.getAction().equalsIgnoreCase(UPDATE_ALL_WIDGETS)) {
             updateAll(context, appWidgetManager, ids);
-        } else if(intent.getAction().equalsIgnoreCase(DELETE_ALL_WIDGETS)) {
+        } else if (intent.getAction().equalsIgnoreCase(DELETE_ALL_WIDGETS)) {
             deleteAll(context, ids);
         }
     }
 
     private void updateAll(Context context, AppWidgetManager appWidgetManager, int[] ids) {
         for (int appWidgetID : ids) {
-                updateAppWidget(context, appWidgetManager, appWidgetID);
+            updateAppWidget(context, appWidgetManager, appWidgetID);
         }
     }
 
     private void deleteAll(Context context, int[] ids) {
         Database db = new Database();
-        for(int id : ids) {
+        for (int id : ids) {
             db.deleteEvent(context, id);
         }
     }

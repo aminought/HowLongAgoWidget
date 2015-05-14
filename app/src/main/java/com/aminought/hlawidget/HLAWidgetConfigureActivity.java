@@ -4,7 +4,7 @@ import android.appwidget.AppWidgetManager;
 import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
-import android.graphics.BitmapFactory;
+import android.graphics.Bitmap;
 import android.graphics.Typeface;
 import android.net.Uri;
 import android.os.Bundle;
@@ -106,7 +106,9 @@ public class HLAWidgetConfigureActivity extends FragmentActivity implements View
         configImageView = (ImageView) findViewById(R.id.configImageView);
         configImageView.setOnClickListener(this);
         if(!event.image.equals("")) {
-            configImageView.setImageBitmap(BitmapFactory.decodeFile(event.image));
+//            configImageView.setImageBitmap(BitmapFactory.decodeFile(event.image));
+            Bitmap bitmap = com.aminought.bitmap.Bitmap.decodeSampledBitmapFromResource(event.image, 100, 100);
+            configImageView.setImageBitmap(bitmap);
         } else {
             configImageView.setImageResource(R.drawable.icon_100);
         }
