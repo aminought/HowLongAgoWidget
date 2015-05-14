@@ -6,7 +6,7 @@
     android:orientation="vertical"
     android:padding="5dp"
     android:id="@+id/linearLayout"
-    android:background="#4c4d51"
+    android:background="#2a2a2a"
     android:weightSum="1">
 
     <com.google.android.gms.ads.AdView
@@ -132,19 +132,20 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@string/choose_image"
-                        android:padding="5dp"
-                        android:background="@color/button_material_dark"
-                        android:textColor="#ffff00"
+                        android:padding="10dp"
                         android:id="@+id/chooseImageButton" />
+                    <!--android:background="@color/button_material_dark"-->
+                    <!--android:textColor="#ffff00"-->
 
                     <Button
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@string/resetImage"
-                        android:background="@color/button_material_dark"
-                        android:textColor="#ffff00"
+                        android:padding="10dp"
                         android:layout_marginTop="5dp"
                         android:id="@+id/resetImageButton" />
+                    <!--android:background="@color/button_material_dark"-->
+                    <!--android:textColor="#ffff00"-->
                 </LinearLayout>
 
                 <ImageView
@@ -162,9 +163,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/save"
-                android:background="@color/button_material_dark"
-                android:textColor="#ffff00"
                 android:layout_marginTop="10pt"
+                android:padding="10dp"
                 android:layout_gravity="center_horizontal"
                 android:id="@+id/addWidgetButton" />
 
