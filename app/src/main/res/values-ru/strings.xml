@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Как давно?</string>
+    <string name="app_name">Как давно? Как долго?</string>
     <string name="loading">Загрузка…</string>
     <string name="title">HLA Widget</string>
     <string name="what">Какое событие ты хочешь запомнить?</string>
@@ -17,5 +17,5 @@
     <string name="hello_world">Привет, мир!</string>
     <string name="sample_result">1 year\n1 month\n1 day\n1 hour\n1 minute</string>
     <string name="second_date">Вторая дата:</string>
-    <string name="title_activity_hla">HLAActivity</string>
+    <string name="title_activity_hla">Как давно? Как долго?</string>
 </resources>
