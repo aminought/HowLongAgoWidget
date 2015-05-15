@@ -1,6 +1,7 @@
 package com.aminought.datetime;
 
 import java.util.Calendar;
+import java.util.Locale;
 
 public class DateTime {
     private int minute;
@@ -112,21 +113,62 @@ public class DateTime {
         a.minute = tmp.minute;
     }
 
+    private String getRussianWordDependsOfNumber(int number, String one, String two_four, String other) {
+        String s = String.valueOf(number);
+        String lastLetter = s.substring(s.length()-1, s.length());
+        String retValue = "";
+        if (lastLetter.equals("1") && number != 11) retValue = one;
+        else if ((lastLetter.equals("2") || lastLetter.equals("3") || lastLetter.equals("4"))
+                && (number < 12 || number > 14)) {
+            retValue += two_four;
+        }
+        else retValue += other;
+        return retValue;
+    }
+
     public String toString(String textColor1, String textColor2, boolean isLB) {
         String full_text = "<small>";
         String color1 = "<font color='" + textColor1 +"'>";
         String color2 = "<font color='" + textColor2 +"'>";
         String font = "</font>";
-        if(this.year > 0) full_text += color1 + this.year + font + color2 +
-                (this.year==1 ? " year " : " years ") + font + (isLB?"<br>":"");
-        if(this.month > 0) full_text += color1 + this.month + font + color2 +
-                (this.month==1 ? " month " : " months ") + font + (isLB?"<br>":"");
-        if(this.day > 0) full_text += color1 + this.day + font + color2 +
-                (this.day==1 ? " day " : " days ") + font + (isLB?"<br>":"");
-        if(this.hour > 0) full_text += color1 + this.hour + font + color2 +
-                (this.hour==1 ? " hour " : " hours ") + font + (isLB?"<br>":"");
-        if(this.minute > 0) full_text += color1 + this.minute +  font + color2 +
-                (this.minute==1 ? " minute " : " minutes ") + font + (isLB?"<br>":"");
+        if(Locale.getDefault().toString().equals("ru_RU")) {
+            if (this.year > 0) {
+                full_text += color1 + this.year + font + color2;
+                full_text += getRussianWordDependsOfNumber(this.year, " год ", " года ", " лет ");
+                full_text += font + (isLB ? "<br>" : "");
+            }
+            if (this.month > 0) {
+                full_text += color1 + this.month + font + color2;
+                full_text += getRussianWordDependsOfNumber(this.month, " месяц ", " месяца ", " месяцев ");
+                full_text += font + (isLB ? "<br>" : "");
+            }
+            if (this.day > 0) {
+                full_text += color1 + this.day + font + color2;
+                full_text += getRussianWordDependsOfNumber(this.day, " день ", " дня ", " дней ");
+                full_text += font + (isLB ? "<br>" : "");
+            }
+            if (this.hour > 0) {
+                full_text += color1 + this.hour + font + color2;
+                full_text += getRussianWordDependsOfNumber(this.hour, " час ", " часа ", " часов ");
+                full_text += font + (isLB ? "<br>" : "");
+            }
+            if (this.minute > 0) {
+                full_text += color1 + this.minute + font + color2;
+                full_text += getRussianWordDependsOfNumber(this.minute, " минута ", " минуты ", " минут ");
+                full_text += font + (isLB ? "<br>" : "");
+            }
+        } else {
+            if (this.year > 0) full_text += color1 + this.year + font + color2 +
+                    (this.year == 1 ? " year " : " years ") + font + (isLB ? "<br>" : "");
+            if (this.month > 0) full_text += color1 + this.month + font + color2 +
+                    (this.month == 1 ? " month " : " months ") + font + (isLB ? "<br>" : "");
+            if (this.day > 0) full_text += color1 + this.day + font + color2 +
+                    (this.day == 1 ? " day " : " days ") + font + (isLB ? "<br>" : "");
+            if (this.hour > 0) full_text += color1 + this.hour + font + color2 +
+                    (this.hour == 1 ? " hour " : " hours ") + font + (isLB ? "<br>" : "");
+            if (this.minute > 0) full_text += color1 + this.minute + font + color2 +
+                    (this.minute == 1 ? " minute " : " minutes ") + font + (isLB ? "<br>" : "");
+        }
         full_text += "</small>";
         return full_text;
     }
