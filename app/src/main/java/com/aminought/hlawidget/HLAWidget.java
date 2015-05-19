@@ -8,6 +8,7 @@ import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.text.Html;
+import android.view.View;
 import android.widget.RemoteViews;
 
 import com.aminought.datetime.DateTime;
@@ -79,11 +80,16 @@ public class HLAWidget extends AppWidgetProvider {
         // Write difference in text view and set image in image view
         RemoteViews views = new RemoteViews(context.getPackageName(), R.layout.hlawidget);
         views.setTextViewText(R.id.mainTextView, Html.fromHtml(full_text));
-        if (!image.equals("")) {
-            android.graphics.Bitmap bitmap = Bitmap.decodeSampledBitmapFromResource(image, 100, 100);
-            views.setImageViewBitmap(R.id.imageView, bitmap);
+        if(event.isAddImage) {
+            if (!image.equals("")) {
+                android.graphics.Bitmap bitmap = Bitmap.decodeSampledBitmapFromResource(image, 100, 100);
+                views.setImageViewBitmap(R.id.imageView, bitmap);
+            } else {
+                views.setImageViewResource(R.id.imageView, R.mipmap.icon);
+            }
+            views.setViewVisibility(R.id.imageView, View.VISIBLE);
         } else {
-            views.setImageViewResource(R.id.imageView, R.mipmap.icon);
+            views.setViewVisibility(R.id.imageView, View.GONE);
         }
 
         // Create intent for cofigure activity by pressing on widget

@@ -13,8 +13,10 @@ import android.support.v4.app.DialogFragment;
 import android.support.v4.app.FragmentActivity;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.aminought.analytics.GoogleAnalyticsApp;
@@ -40,6 +42,8 @@ public class HLAWidgetConfigureActivity extends FragmentActivity implements View
     private ImageView configImageView;
     private TextView showDatePickerButton;
     private TextView showTimePickerButton;
+    private CheckBox addImageCheckBox;
+    LinearLayout showImagePickerLinearLayout;
 
     private final int PICK_IMAGE = 1;
 
@@ -105,6 +109,13 @@ public class HLAWidgetConfigureActivity extends FragmentActivity implements View
 
         Button resetImageButton = (Button) findViewById(R.id.resetImageButton);
         resetImageButton.setOnClickListener(this);
+
+        addImageCheckBox = (CheckBox) findViewById(R.id.addImage);
+        addImageCheckBox.setOnClickListener(this);
+        showImagePickerLinearLayout = (LinearLayout)
+                findViewById(R.id.showImagePickerLinearLayout);
+        addImageCheckBox.setChecked(event.isAddImage);
+        showImagePicker();
 
         // Set image
         configImageView = (ImageView) findViewById(R.id.configImageView);
@@ -176,6 +187,7 @@ public class HLAWidgetConfigureActivity extends FragmentActivity implements View
                         dateArgs.getInt("day") + " " +
                         timeArgs.getInt("hour") + ":" +
                         timeArgs.getInt("minute");
+                event.isAddImage = addImageCheckBox.isChecked();
                 database.saveEvent(context, event, mAppWidgetId);
 
                 // It is the responsibility of the configuration activity to update the app widget
@@ -201,6 +213,17 @@ public class HLAWidgetConfigureActivity extends FragmentActivity implements View
             case R.id.resetImageButton:
                 resetImage();
                 break;
+            case R.id.addImage:
+                showImagePicker();
+                break;
+        }
+    }
+
+    private void showImagePicker() {
+        if(addImageCheckBox.isChecked()) {
+            showImagePickerLinearLayout.setVisibility(View.VISIBLE);
+        } else {
+            showImagePickerLinearLayout.setVisibility(View.GONE);
         }
     }
 
@@ -249,6 +272,7 @@ public class HLAWidgetConfigureActivity extends FragmentActivity implements View
         outState.putInt("minute", timeArgs.getInt("minute"));
         outState.putString("dateString", showDatePickerButton.getText().toString());
         outState.putString("timeString", showTimePickerButton.getText().toString());
+        outState.putBoolean("addImageCheckBox", addImageCheckBox.isChecked());
     }
 
     @Override
@@ -265,6 +289,8 @@ public class HLAWidgetConfigureActivity extends FragmentActivity implements View
         timeFragment.setArguments(timeArgs);
         showDatePickerButton.setText(savedInstanceState.getString("dateString"));
         showTimePickerButton.setText(savedInstanceState.getString("timeString"));
+        addImageCheckBox.setChecked(savedInstanceState.getBoolean("addImageCheckBox"));
+        showImagePicker();
     }
 
     @Override

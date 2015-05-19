@@ -18,4 +18,5 @@
     <string name="sample_result">1 year\n1 month\n1 day\n1 hour\n1 minute</string>
     <string name="second_date">Вторая дата:</string>
     <string name="title_activity_hla">Как давно? Как долго?</string>
+    <string name="addImage">Добавить изображение</string>
 </resources>

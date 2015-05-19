@@ -116,11 +116,19 @@
                     android:paddingLeft="15dp" />
             </LinearLayout>
 
+            <CheckBox
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/addImage"
+                android:layout_marginTop="10dp"
+                android:id="@+id/addImage"/>
 
             <LinearLayout
                 android:orientation="horizontal"
                 android:layout_width="fill_parent"
                 android:layout_height="fill_parent"
+                android:id="@+id/showImagePickerLinearLayout"
+                android:visibility="gone"
                 android:layout_marginTop="10dp">
 
                 <LinearLayout
@@ -134,18 +142,21 @@
                         android:text="@string/choose_image"
                         android:padding="10dp"
                         android:id="@+id/chooseImageButton" />
-                    <!--android:background="@color/button_material_dark"-->
-                    <!--android:textColor="#ffff00"-->
 
-                    <Button
+                    <LinearLayout
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/resetImage"
-                        android:padding="10dp"
-                        android:layout_marginTop="5dp"
-                        android:id="@+id/resetImageButton" />
-                    <!--android:background="@color/button_material_dark"-->
-                    <!--android:textColor="#ffff00"-->
+                        android:layout_height="wrap_content">
+
+                        <Button
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/resetImage"
+                            android:padding="10dp"
+                            android:layout_marginTop="5dp"
+                            android:id="@+id/resetImageButton" />
+
+                    </LinearLayout>
+
                 </LinearLayout>
 
                 <ImageView
@@ -170,5 +181,4 @@
 
         </LinearLayout>
     </ScrollView>
-
 </RelativeLayout>

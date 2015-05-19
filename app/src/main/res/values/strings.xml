@@ -11,6 +11,7 @@
     <string name="save">Save</string>
     <string name="choose_image">Choose image</string>
     <string name="resetImage">Reset image</string>
+    <string name="addImage">Add image</string>
     <string name="title_activity_hla">How long (ago)?</string>
     <string name="first_date">First date:</string>
     <string name="second_date">Second date:</string>
