@@ -17,6 +17,7 @@ import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RemoteViews;
 import android.widget.TextView;
 
 import com.aminought.analytics.GoogleAnalyticsApp;
@@ -44,6 +45,7 @@ public class HLAWidgetConfigureActivity extends FragmentActivity implements View
     private TextView showTimePickerButton;
     private CheckBox addImageCheckBox;
     LinearLayout showImagePickerLinearLayout;
+    private Bundle previewBundle;
 
     private final int PICK_IMAGE = 1;
 
@@ -239,6 +241,13 @@ public class HLAWidgetConfigureActivity extends FragmentActivity implements View
         event.image = "";
     }
 
+    private void updatePreview() {
+        final Context context = com.aminought.hlawidget.HLAWidgetConfigureActivity.this;
+        RemoteViews views = new RemoteViews(context.getPackageName(), R.layout.hlawidget_configure);
+        HLAWidget.updateLayout(context, mAppWidgetId, views, R.layout.hlawidget_configure,
+                R.id.imageViewPreview, R.id.mainTextViewPreview);
+    }
+
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -255,6 +264,7 @@ public class HLAWidgetConfigureActivity extends FragmentActivity implements View
                     event.image = imageDecodableString;
                     Bitmap bitmap = com.aminought.bitmap.Bitmap.decodeSampledBitmapFromResource(event.image, 100, 100);
                     configImageView.setImageBitmap(bitmap);
+                    updatePreview();
                     break;
             }
         }

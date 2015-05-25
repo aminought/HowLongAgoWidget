@@ -19,4 +19,5 @@
     <string name="second_date">Вторая дата:</string>
     <string name="title_activity_hla">Как давно? Как долго?</string>
     <string name="addImage">Добавить изображение</string>
+    <string name="preview">Предпросмотр:</string>
 </resources>

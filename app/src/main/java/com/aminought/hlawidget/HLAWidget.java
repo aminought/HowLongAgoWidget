@@ -39,6 +39,22 @@ public class HLAWidget extends AppWidgetProvider {
 
     static void updateAppWidget(Context context, AppWidgetManager appWidgetManager,
                                 int appWidgetId) {
+        RemoteViews views = new RemoteViews(context.getPackageName(), R.layout.hlawidget);
+        updateLayout(context, appWidgetId, views, R.layout.hlawidget, R.id.imageView, R.id.mainTextView);
+        // Create intent for cofigure activity by pressing on widget
+        Intent configIntent = new Intent(context, HLAWidgetConfigureActivity.class);
+        configIntent.setAction(AppWidgetManager.ACTION_APPWIDGET_CONFIGURE);
+        configIntent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, appWidgetId);
+        PendingIntent pendingIntent = PendingIntent.getActivity(context, appWidgetId,
+                configIntent, 0);
+        views.setOnClickPendingIntent(R.id.mainLayout, pendingIntent);
+
+        // Instruct the widget manager to update the widget
+        appWidgetManager.updateAppWidget(appWidgetId, views);
+    }
+
+    public static void updateLayout(Context context, int appWidgetId, RemoteViews views,
+                                    int layoutId, int imageViewId, int textViewId) {
         // Load data from preferences
         Event event = HLAWidgetConfigureActivity.database.loadEvent(context, appWidgetId);
         String full_text = event.text + "<br>";
@@ -78,30 +94,18 @@ public class HLAWidget extends AppWidgetProvider {
 
         // Construct the RemoteViews object
         // Write difference in text view and set image in image view
-        RemoteViews views = new RemoteViews(context.getPackageName(), R.layout.hlawidget);
-        views.setTextViewText(R.id.mainTextView, Html.fromHtml(full_text));
+        views.setTextViewText(textViewId, Html.fromHtml(full_text));
         if(event.isAddImage) {
             if (!image.equals("")) {
                 android.graphics.Bitmap bitmap = Bitmap.decodeSampledBitmapFromResource(image, 100, 100);
-                views.setImageViewBitmap(R.id.imageView, bitmap);
+                views.setImageViewBitmap(imageViewId, bitmap);
             } else {
-                views.setImageViewResource(R.id.imageView, R.mipmap.icon);
+                views.setImageViewResource(imageViewId, R.mipmap.icon);
             }
-            views.setViewVisibility(R.id.imageView, View.VISIBLE);
+            views.setViewVisibility(imageViewId, View.VISIBLE);
         } else {
-            views.setViewVisibility(R.id.imageView, View.GONE);
+            views.setViewVisibility(imageViewId, View.GONE);
         }
-
-        // Create intent for cofigure activity by pressing on widget
-        Intent configIntent = new Intent(context, HLAWidgetConfigureActivity.class);
-        configIntent.setAction(AppWidgetManager.ACTION_APPWIDGET_CONFIGURE);
-        configIntent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, appWidgetId);
-        PendingIntent pendingIntent = PendingIntent.getActivity(context, appWidgetId,
-                configIntent, 0);
-        views.setOnClickPendingIntent(R.id.mainLayout, pendingIntent);
-
-        // Instruct the widget manager to update the widget
-        appWidgetManager.updateAppWidget(appWidgetId, views);
     }
 
     @Override
