@@ -9,19 +9,23 @@ import android.graphics.Typeface;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.support.annotation.NonNull;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.FragmentActivity;
+import android.text.Editable;
+import android.text.Html;
+import android.text.TextWatcher;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.RemoteViews;
 import android.widget.TextView;
 
 import com.aminought.analytics.GoogleAnalyticsApp;
 import com.aminought.datetime.DatePickerFragment;
+import com.aminought.datetime.DateTime;
 import com.aminought.datetime.TimePickerFragment;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
@@ -64,6 +68,13 @@ public class HLAWidgetConfigureActivity extends FragmentActivity implements View
 
         dateFragment = new DatePickerFragment();
         timeFragment = new TimePickerFragment();
+        EditText eventEditText = (EditText) findViewById(R.id.eventEditText);
+        Button addWidgetButton = (Button) findViewById(R.id.addWidgetButton);
+        Button chooseImageButton = (Button) findViewById(R.id.chooseImageButton);
+        Button resetImageButton = (Button) findViewById(R.id.resetImageButton);
+        addImageCheckBox = (CheckBox) findViewById(R.id.addImage);
+        configImageView = (ImageView) findViewById(R.id.configImageView);
+        TextView titleTextView = (TextView) findViewById(R.id.titleTextView);
 
         Intent intent = getIntent();
         Bundle extras = intent.getExtras();
@@ -72,10 +83,9 @@ public class HLAWidgetConfigureActivity extends FragmentActivity implements View
                 AppWidgetManager.EXTRA_APPWIDGET_ID, AppWidgetManager.INVALID_APPWIDGET_ID);
         }
 
-        EditText eventEditText = (EditText) findViewById(R.id.eventEditText);
-
         // Load data from preferences
         event = database.loadEvent(this, mAppWidgetId);
+        previewBundle = new Bundle();
         eventEditText.setText(event.text);
 
         // Create calendar with event date
@@ -103,34 +113,22 @@ public class HLAWidgetConfigureActivity extends FragmentActivity implements View
         timeArgs.putInt("minute", calendar.get(Calendar.MINUTE));
         timeFragment.setArguments(timeArgs);
 
-        Button addWidgetButton = (Button) findViewById(R.id.addWidgetButton);
         addWidgetButton.setOnClickListener(this);
-
-        Button chooseImageButton = (Button) findViewById(R.id.chooseImageButton);
         chooseImageButton.setOnClickListener(this);
-
-        Button resetImageButton = (Button) findViewById(R.id.resetImageButton);
         resetImageButton.setOnClickListener(this);
-
-        addImageCheckBox = (CheckBox) findViewById(R.id.addImage);
         addImageCheckBox.setOnClickListener(this);
+
         showImagePickerLinearLayout = (LinearLayout)
                 findViewById(R.id.showImagePickerLinearLayout);
         addImageCheckBox.setChecked(event.isAddImage);
         showImagePicker();
 
         // Set image
-        configImageView = (ImageView) findViewById(R.id.configImageView);
         configImageView.setOnClickListener(this);
-        if(!event.image.equals("")) {
-            Bitmap bitmap = com.aminought.bitmap.Bitmap.decodeSampledBitmapFromResource(event.image, 100, 100);
-            configImageView.setImageBitmap(bitmap);
-        } else {
-            configImageView.setImageResource(R.drawable.icon_100);
-        }
+        previewBundle.putString("image", event.image);
+        updateImage(event.image);
 
         // Apply custom font for title
-        TextView titleTextView = (TextView) findViewById(R.id.titleTextView);
         Typeface font = Typeface.createFromAsset(getAssets(), "BuxtonSketch.ttf");
         titleTextView.setTypeface(font);
 
@@ -141,6 +139,16 @@ public class HLAWidgetConfigureActivity extends FragmentActivity implements View
         SimpleDateFormat dateFormat = new SimpleDateFormat("dd.MM.yyyy");
         showDatePickerButton.setText(dateFormat.format(dateCal.getTime()));
         showDatePickerButton.setOnClickListener(this);
+        showDatePickerButton.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {  }
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                updatePreview();
+            }
+            @Override
+            public void afterTextChanged(Editable s) {  }
+        });
 
         showTimePickerButton = (TextView) findViewById(R.id.showTimePickerButton);
         Calendar timeCal = new GregorianCalendar(0, 0, 0, timeArgs.getInt("hour"),
@@ -148,6 +156,29 @@ public class HLAWidgetConfigureActivity extends FragmentActivity implements View
         SimpleDateFormat timeFormat = new SimpleDateFormat("HH:mm");
         showTimePickerButton.setText(timeFormat.format(timeCal.getTime()));
         showTimePickerButton.setOnClickListener(this);
+        showTimePickerButton.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {  }
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                updatePreview();
+            }
+            @Override
+            public void afterTextChanged(Editable s) {  }
+        });
+
+        updatePreview();
+
+        eventEditText.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) { }
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                updatePreview();
+            }
+            @Override
+            public void afterTextChanged(Editable s) {  }
+        });
 
         // Add ads
         AdView adView = (AdView) findViewById(R.id.ConfigureAdView);
@@ -157,6 +188,15 @@ public class HLAWidgetConfigureActivity extends FragmentActivity implements View
         // If this activity was started with an intent without an app widget ID, finish with an error.
         if (mAppWidgetId == AppWidgetManager.INVALID_APPWIDGET_ID) {
             finish();
+        }
+    }
+
+    private void updateImage(String image) {
+        if(!image.equals("")) {
+            Bitmap bitmap = com.aminought.bitmap.Bitmap.decodeSampledBitmapFromResource(image, 100, 100);
+            configImageView.setImageBitmap(bitmap);
+        } else {
+            configImageView.setImageResource(R.drawable.icon_100);
         }
     }
 
@@ -172,6 +212,15 @@ public class HLAWidgetConfigureActivity extends FragmentActivity implements View
         timeFragment.show(getSupportFragmentManager(), "timePicker");
     }
 
+    private String getDateTimeString() {
+        Bundle dateArgs = dateFragment.getArguments();
+        Bundle timeArgs = timeFragment.getArguments();
+        return  dateArgs.getInt("year") + "-" +
+                (dateArgs.getInt("month")+1) + "-" +
+                dateArgs.getInt("day") + " " +
+                timeArgs.getInt("hour") + ":" +
+                timeArgs.getInt("minute");
+    }
 
     public void onClick(View v) {
         switch(v.getId()) {
@@ -181,14 +230,8 @@ public class HLAWidgetConfigureActivity extends FragmentActivity implements View
                 EditText eventEditText = (EditText) findViewById(R.id.eventEditText);
 
                 // Save text and date into event object
-                Bundle dateArgs = dateFragment.getArguments();
-                Bundle timeArgs = timeFragment.getArguments();
                 event.text = eventEditText.getText().toString();
-                event.datetime = dateArgs.getInt("year") + "-" +
-                        (dateArgs.getInt("month")+1) + "-" +
-                        dateArgs.getInt("day") + " " +
-                        timeArgs.getInt("hour") + ":" +
-                        timeArgs.getInt("minute");
+                event.datetime = getDateTimeString();
                 event.isAddImage = addImageCheckBox.isChecked();
                 database.saveEvent(context, event, mAppWidgetId);
 
@@ -217,6 +260,7 @@ public class HLAWidgetConfigureActivity extends FragmentActivity implements View
                 break;
             case R.id.addImage:
                 showImagePicker();
+                updatePreview();
                 break;
         }
     }
@@ -239,13 +283,7 @@ public class HLAWidgetConfigureActivity extends FragmentActivity implements View
     private void resetImage() {
         configImageView.setImageResource(R.mipmap.icon);
         event.image = "";
-    }
-
-    private void updatePreview() {
-        final Context context = com.aminought.hlawidget.HLAWidgetConfigureActivity.this;
-        RemoteViews views = new RemoteViews(context.getPackageName(), R.layout.hlawidget_configure);
-        HLAWidget.updateLayout(context, mAppWidgetId, views, R.layout.hlawidget_configure,
-                R.id.imageViewPreview, R.id.mainTextViewPreview);
+        previewBundle.putString("imageDecodableString", "");
     }
 
     @Override
@@ -264,10 +302,36 @@ public class HLAWidgetConfigureActivity extends FragmentActivity implements View
                     event.image = imageDecodableString;
                     Bitmap bitmap = com.aminought.bitmap.Bitmap.decodeSampledBitmapFromResource(event.image, 100, 100);
                     configImageView.setImageBitmap(bitmap);
+                    previewBundle.putString("image", imageDecodableString);
                     updatePreview();
                     break;
             }
         }
+    }
+
+    private void updatePreview() {
+        String image = previewBundle.getString("image", "");
+        ImageView imageView = (ImageView) findViewById(R.id.imageViewPreview);
+        if(addImageCheckBox.isChecked()) {
+            if (!image.equals("")) {
+                android.graphics.Bitmap bitmap = com.aminought.bitmap.Bitmap.
+                        decodeSampledBitmapFromResource(image, 100, 100);
+                imageView.setImageBitmap(bitmap);
+            } else {
+                imageView.setImageResource(R.mipmap.icon);
+            }
+            imageView.setVisibility(View.VISIBLE);
+        } else {
+            imageView.setVisibility(View.GONE);
+        }
+
+        EditText eventEditText = (EditText) findViewById(R.id.eventEditText);
+        String fullText = eventEditText.getText() + "<br>";
+        String datetime = getDateTimeString();
+        DateTime dtNew = DateTime.computeTimeToNow(datetime);
+        fullText += dtNew.toString("#ffff00", "#ffffff", false);
+        TextView mainTextViewPreview = (TextView) findViewById(R.id.mainTextViewPreview);
+        mainTextViewPreview.setText(Html.fromHtml(fullText));
     }
 
     @Override
@@ -283,10 +347,12 @@ public class HLAWidgetConfigureActivity extends FragmentActivity implements View
         outState.putString("dateString", showDatePickerButton.getText().toString());
         outState.putString("timeString", showTimePickerButton.getText().toString());
         outState.putBoolean("addImageCheckBox", addImageCheckBox.isChecked());
+        outState.putString("image", previewBundle.getString("image"));
+        outState.putString("event.image", event.image);
     }
 
     @Override
-    protected void onRestoreInstanceState(Bundle savedInstanceState) {
+    protected void onRestoreInstanceState(@NonNull Bundle savedInstanceState) {
         super.onRestoreInstanceState(savedInstanceState);
         Bundle dateArgs = new Bundle();
         Bundle timeArgs = new Bundle();
@@ -300,7 +366,11 @@ public class HLAWidgetConfigureActivity extends FragmentActivity implements View
         showDatePickerButton.setText(savedInstanceState.getString("dateString"));
         showTimePickerButton.setText(savedInstanceState.getString("timeString"));
         addImageCheckBox.setChecked(savedInstanceState.getBoolean("addImageCheckBox"));
+        previewBundle.putString("image", savedInstanceState.getString("image"));
+        event.image = savedInstanceState.getString("event.image");
+        updateImage(event.image);
         showImagePicker();
+        updatePreview();
     }
 
     @Override

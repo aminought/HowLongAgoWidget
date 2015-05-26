@@ -1,6 +1,10 @@
 package com.aminought.datetime;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.Locale;
 
 public class DateTime {
@@ -77,6 +81,29 @@ public class DateTime {
         newDT.year = year;
 
         return newDT;
+    }
+
+    public static DateTime computeTimeToNow(String dt) {
+        Calendar dt_calendar = new GregorianCalendar();
+        Calendar now_calendar = new GregorianCalendar();
+
+        Date dt_date = new Date();
+        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm");
+        try {
+            dt_date = format.parse(dt);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        Date now_date = new Date();
+
+        // Create calendars with event time and current time
+        dt_calendar.setTime(dt_date);
+        now_calendar.setTime(now_date);
+
+        DateTime dtA = new DateTime(dt_calendar);
+        DateTime dtB = new DateTime(now_calendar);
+        // Compute the difference
+        return dtB.diff(dtA);
     }
 
     /**

@@ -14,12 +14,6 @@ import android.widget.RemoteViews;
 import com.aminought.datetime.DateTime;
 import com.aminought.bitmap.Bitmap;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.GregorianCalendar;
-
 public class HLAWidget extends AppWidgetProvider {
 
     final String UPDATE_ALL_WIDGETS = "update_all_widgets";
@@ -61,35 +55,7 @@ public class HLAWidget extends AppWidgetProvider {
         String dt = event.datetime;
         String image = event.image;
 
-        Calendar event_calendar = new GregorianCalendar();
-        Calendar now_calendar = new GregorianCalendar();
-
-        Date event_date = new Date();
-        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm");
-        try {
-            event_date = format.parse(dt);
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
-        Date now_date = new Date();
-
-        // Create calendars with event time and current time
-        event_calendar.setTime(event_date);
-        now_calendar.setTime(now_date);
-
-        DateTime dtA = new DateTime(event_calendar.get(Calendar.YEAR),
-                event_calendar.get(Calendar.MONTH),
-                event_calendar.get(Calendar.DAY_OF_MONTH),
-                event_calendar.get(Calendar.HOUR_OF_DAY),
-                event_calendar.get(Calendar.MINUTE));
-        DateTime dtB = new DateTime(now_calendar.get(Calendar.YEAR),
-                now_calendar.get(Calendar.MONTH),
-                now_calendar.get(Calendar.DAY_OF_MONTH),
-                now_calendar.get(Calendar.HOUR_OF_DAY),
-                now_calendar.get(Calendar.MINUTE));
-        // Compute the difference
-        DateTime dtNew = dtB.diff(dtA);
-
+        DateTime dtNew = DateTime.computeTimeToNow(dt);
         full_text += dtNew.toString("#ffff00", "#ffffff", false);
 
         // Construct the RemoteViews object
