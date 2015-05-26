@@ -8,8 +8,8 @@ android {
         applicationId "com.aminought.hlawidget"
         minSdkVersion 14
         targetSdkVersion 21
-        versionCode 4
-        versionName "1.2.0"
+        versionCode 6
+        versionName "1.2.1"
     }
     buildTypes {
         debug {

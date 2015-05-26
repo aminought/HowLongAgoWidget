@@ -257,6 +257,7 @@ public class HLAWidgetConfigureActivity extends FragmentActivity implements View
                 break;
             case R.id.resetImageButton:
                 resetImage();
+                updatePreview();
                 break;
             case R.id.addImage:
                 showImagePicker();
@@ -283,7 +284,7 @@ public class HLAWidgetConfigureActivity extends FragmentActivity implements View
     private void resetImage() {
         configImageView.setImageResource(R.mipmap.icon);
         event.image = "";
-        previewBundle.putString("imageDecodableString", "");
+        previewBundle.putString("image", "");
     }
 
     @Override
